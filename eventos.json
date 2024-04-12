@@ -1,0 +1,24 @@
+[
+    {
+        "nome": "Evento 1",
+        "descricao": "Descrição do Evento 1.",
+        "imagem": "Imagens/evento2.jpg"
+    },
+    {
+        "nome": "Evento 2",
+        "descricao": "Descrição do Evento 2.",
+        "imagem": "Imagens/evento1.jpg"
+        
+    },
+    {
+        "nome": "Evento 3",
+        "descricao": "Descrição do Evento 3.",
+        "imagem": "Imagens/evento3.jpg"
+        
+    },
+    {
+        "nome": "Evento 4",
+        "descricao": "Descrição do Evento 3.",
+        "imagem": "Imagens/evento2.jpg"
+    }
+]

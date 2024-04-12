@@ -1,0 +1,224 @@
+.lista ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .lista ul li {
+    display: inline-block; /* Isso permite que os itens da lista fiquem em linha */
+    margin-right: 20px; /* Adiciona um espaço de 20px entre os itens */
+  }
+  
+  .lista ul li:last-child {
+    margin-right: 0; /* Remove a margem direita do último item para evitar espaçamento extra */
+  }
+  
+
+.eventos {
+    padding: 20px;
+    /* Espaçamento interno da seção */
+}
+
+.titulo {
+
+    text-align: center;
+    /* Centralizar o texto */
+    font-size: 40pt;
+    /* Tamanho grande para o título */
+    font-weight: bold;
+    /* Negrito para o título */
+    margin-bottom: 30px;
+    /* Margem inferior para separar dos cards */
+    color: #333;
+    /* Cor do texto preto */
+}
+
+
+.card-evento {
+    width: calc(30% - 20px);
+    margin: 20px;
+    padding: 15px;
+    box-sizing: border-box;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: inline-block;
+
+}
+
+
+.card-evento img {
+    width: 100%;
+    height: 200px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+.card-evento h3 {
+    font-size: 1.2em;
+    /* Tamanho da fonte para o título */
+    margin-bottom: 8px;
+    /* Margem inferior do título */
+}
+
+.card-evento p {
+    font-size: 0.9em;
+    /* Tamanho da fonte para o texto de descrição */
+    color: #666;
+    /* Cor do texto cinza escuro */
+    margin-bottom: 10px;
+    /* Margem inferior do texto de descrição */
+}
+
+.botao {
+    display: inline-block;
+    padding: 8px 16px;
+    background-color: #007bff;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.botao:hover {
+    background-color: #0056b3;
+   
+}
+
+#perfil , #carrinho{
+
+    
+}
+
+
+
+.modal-container {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal {
+    background-color: #fefefe;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 30%;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin: 10% auto 0;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.modal input {
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.close-button {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close-button:hover,
+.close-button:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+
+.nav-menu {
+    width: 250px;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: -250px;
+    background-color: #ad9292;
+    transition: left 0.3s ease;
+    overflow-y: auto;
+}
+
+.nav-menu.open {
+    left: 0;
+}
+
+.nav-menu ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.nav-menu input {
+    float: left;
+    margin-right: 20px;
+    /* Ajuste conforme necessário */
+}
+
+.nav-menu img {
+    float: right;
+}
+
+.nav-menu ul li {
+    padding: 15px;
+}
+
+.nav-menu ul li a {
+    color: #fff;
+    text-decoration: none;
+}
+
+body.menu-aberto {
+    margin-left: 250px;
+}
+
+
+@media only screen and (min-width: 768px) {
+    .lista ul {
+        display: inline-block;
+    }
+
+    .nav-menu {
+        width: 250px;
+    }
+
+}
+
+
+@media only screen and (max-width: 767px) {
+    .lista ul {
+        display: inline-block;
+        text-align: center;
+    }
+
+    .nav-menu {
+        width: 50%;
+        left: -100%;
+    }
+
+    .nav-menu.open {
+        left: 0;
+    }
+
+    .nav-menu ul li {
+        padding: 10px;
+    }
+
+    .eventos .titulo {
+        font-size: 30pt;
+    }
+
+    .card-evento {
+        width: calc(100% - 40px);
+        margin: 10px 20px;
+    }
+}
