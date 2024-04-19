@@ -2,35 +2,28 @@
     list-style-type: none;
     margin: 0;
     padding: 0;
-  }
-  
-  .lista ul li {
-    display: inline-block; /* Isso permite que os itens da lista fiquem em linha */
-    margin-right: 20px; /* Adiciona um espaço de 20px entre os itens */
-  }
-  
-  .lista ul li:last-child {
-    margin-right: 0; /* Remove a margem direita do último item para evitar espaçamento extra */
-  }
-  
+}
+
+.lista ul li {
+    display: inline-block;
+    margin-right: 20px;
+}
+
+.lista ul li:last-child {
+    margin-right: 0;
+    
+}
 
 .eventos {
     padding: 20px;
-    /* Espaçamento interno da seção */
 }
 
 .titulo {
-
     text-align: center;
-    /* Centralizar o texto */
     font-size: 40pt;
-    /* Tamanho grande para o título */
     font-weight: bold;
-    /* Negrito para o título */
     margin-bottom: 30px;
-    /* Margem inferior para separar dos cards */
     color: #333;
-    /* Cor do texto preto */
 }
 
 
@@ -47,6 +40,14 @@
 
 }
 
+.admin {
+    border-radius: 100px;
+    width: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto; /* Para centralizar horizontalmente */
+}
 
 .card-evento img {
     width: 100%;
@@ -57,9 +58,7 @@
 
 .card-evento h3 {
     font-size: 1.2em;
-    /* Tamanho da fonte para o título */
     margin-bottom: 8px;
-    /* Margem inferior do título */
 }
 
 .card-evento p {
@@ -83,15 +82,8 @@
 
 .botao:hover {
     background-color: #0056b3;
-   
+
 }
-
-#perfil , #carrinho{
-
-    
-}
-
-
 
 .modal-container {
     display: none;
@@ -101,32 +93,29 @@
     top: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
 }
 
+/* Modal Content */
 .modal {
     background-color: #fefefe;
+    margin: 20% auto;
     padding: 20px;
     border: 1px solid #888;
-    width: 30%;
-    border-radius: 5px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    margin: 10% auto 0;
-    text-align: center;
-    margin-top: 20px;
+    width: 80%;
+    max-width: 400px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    position: relative;
 }
 
-.modal input {
-    width: 100%;
-    margin-bottom: 10px;
-}
-
+/* Close Button */
 .close-button {
     color: #aaa;
     float: right;
     font-size: 28px;
     font-weight: bold;
-    cursor: pointer;
 }
 
 .close-button:hover,
@@ -134,6 +123,42 @@
     color: black;
     text-decoration: none;
     cursor: pointer;
+}
+
+/* Form Styling */
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+.modal input[type="text"],
+.modal input[type="password"] {
+    padding: 10px;
+    margin-bottom: 16px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.botaolog {
+    background-color: #4CAF50;
+    color: white;
+    padding: 14px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 10px;
+}
+
+/* Criar Conta Link */
+.criar-conta-link {
+    margin-top: 10px;
+    text-align: center;
 }
 
 
@@ -221,4 +246,126 @@ body.menu-aberto {
         width: calc(100% - 40px);
         margin: 10px 20px;
     }
+}
+
+
+/* Estilo para o formulário de criar conta */
+
+#criar-conta {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+#criar-conta h2 {
+    text-align: center;
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+#criar-conta label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+#criar-conta input[type="text"],
+#criar-conta input[type="email"],
+#criar-conta input[type="password"],
+#criar-conta input[type="tel"] {
+    width: calc(100% - 10px); /* Ajuste para compensar o padding */
+    padding: 10px;
+    margin-bottom: 10px; /* Reduzi a margem inferior */
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+#criar-conta input[type="submit"] {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+#criar-conta input[type="submit"]:hover {
+    background-color: #45a049;
+}
+
+
+
+
+.modal-eventos {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 60%;
+    max-width: 600px;
+    background-color: #fff;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.modal-content {
+    width: 100%;
+    height: auto;
+    max-width: 100%; /* Ajusta para a largura máxima do modal */
+    max-height: 400px;
+    align-items: center;
+}
+
+.botao {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.botao:hover {
+    background-color: #0056b3;
+}
+
+#caption {
+    text-align: center;
+}
+
+#modalNome {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+#modalData,
+#modalLocal,
+#modalDescricao {
+    margin-bottom: 10px;
+}
+#img01{
+    width: 250px;
 }

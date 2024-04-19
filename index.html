@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="Css/estilo.css">
-
+    <link rel="icon" href="Imagens/logo.jpg">
     <title>Projeto 1</title>
 </head>
 
@@ -29,34 +29,56 @@
         <div class="modal">
             <span class="close-button">&times;</span>
             <h2>Login</h2>
-            <form>
+            <form id="login">
                 <label for="username">Username:</label><br>
                 <input type="text" id="username" name="username"><br>
                 <label for="password">Password:</label><br>
                 <input type="password" id="password" name="password"><br>
-                <a href="">Criar Conta</a>
-                <input type="submit" value="Login" class="botao">
+                <a href="Pages/criarconta.html">Criar Conta</a>
+                <input type="submit" value="Login" class="botaolog">
             </form>
         </div>
     </div>
     <div class="nav-menu" id="navMenu">
         <ul>
-            <li><input type="text" placeholder="pesquisar"> <a href=""><img src="Imagens/icons8-pesquisar-50.png" alt=""
-                        width="20px" height="20px"></a></li>
+            <li>
+                <input type="text" placeholder="pesquisar"> <a href=""><img src="Imagens/icons8-pesquisar-50.png" alt=""
+                        width="20px" height="20px"></a>
+            </li>
             <li>
                 <h2>CATEGORIAS</h2>
             </li>
             <li><a href="#">Desporto</a></li>
             <li><a href="#">Cultural</a></li>
+            <li><a href="#">Música</a></li>
+            <li><a href="#">Arte</a></li>
+            <li><a href="#">Educação</a></li>
+            <li><a href="#">Negócios</a></li>
+            <li><a href="#">Tecnologia</a></li>
         </ul>
     </div>
+
 
     <section class="eventos" id="eventosContainer">
         <h3 class="titulo">Próximos Eventos</h3>
         <!-- Conteúdo da seção de eventos será inserido dinamicamente -->
     </section>
 
-    <script src="Js/index.js"></script> <!-- Inclua o seu arquivo JavaScript -->
+    <div id="myModal" class="modal-eventos">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <img class="modal-content" id="img01">
+        <div id="caption">
+            <h3 id="modalNome"></h3>
+            <p id="modalData"></p>
+            <p id="modalLocal"></p>
+            <p id="modalDescricao"></p>
+            <a href="#" class="botao" id="comprarBilhete">Comprar Bilhete</a>
+        </div>
+    </div>
+    
+    
+
+    <script src="Js/index.js"></script>
 
 </body>
 
