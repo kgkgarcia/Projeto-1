@@ -42,8 +42,6 @@ function openModal(nome, data, local, descricao, imagem) {
     modalData.textContent = "Data: " + data;
     modalLocal.textContent = "Local: " + local;
     modalDescricao.textContent = descricao;
-
-    // Adicione aqui o código para a funcionalidade de comprar bilhete
 }
 
 // Função para fechar o modal
