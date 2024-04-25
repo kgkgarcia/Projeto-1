@@ -27,12 +27,13 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 // Função para abrir o modal com os detalhes do evento
-function openModal(nome, data, local, descricao, imagem) {
+function openModal(nome, data, local, descricao, preco, imagem) {
     const modal = document.getElementById('myModal');
     const modalImg = document.getElementById('img01');
     const modalNome = document.getElementById('modalNome');
     const modalData = document.getElementById('modalData');
     const modalLocal = document.getElementById('modalLocal');
+    const modalPreco = document.getElementById('modalPreco');
     const modalDescricao = document.getElementById('modalDescricao');
     const comprarBilhete = document.getElementById('comprarBilhete');
 
@@ -41,7 +42,18 @@ function openModal(nome, data, local, descricao, imagem) {
     modalNome.textContent = nome;
     modalData.textContent = "Data: " + data;
     modalLocal.textContent = "Local: " + local;
+    modalPreco.textContent = "Preço: " + preco;
     modalDescricao.textContent = descricao;
+
+    // Adiciona um evento de clique ao botão "Comprar Bilhete" para fechar o modal
+    comprarBilhete.addEventListener('click', closeModal);
+
+    // Fecha o modal se clicar fora dele
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            closeModal();
+        }
+    }
 }
 
 // Função para fechar o modal
@@ -49,6 +61,8 @@ function closeModal() {
     const modal = document.getElementById('myModal');
     modal.style.display = 'none';
 }
+
+
 
 
 

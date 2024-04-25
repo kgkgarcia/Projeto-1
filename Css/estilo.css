@@ -1,7 +1,16 @@
-.lista ul {
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+}
+
+.lista {
     list-style-type: none;
     margin: 0;
     padding: 0;
+    display: flex;
+    flex-direction: row;
+    margin: auto 10px auto -30px;
+    justify-content: space-between;
 }
 
 .lista ul li {
@@ -11,12 +20,9 @@
 
 .lista ul li:last-child {
     margin-right: 0;
-    
+
 }
 
-.eventos {
-    padding: 20px;
-}
 
 .titulo {
     text-align: center;
@@ -28,16 +34,41 @@
 
 
 .card-evento {
-    width: calc(30% - 20px);
-    margin: 20px;
-    padding: 15px;
-    box-sizing: border-box;
+    width: calc(30% - 50px);
+    margin: 30px;
+    padding: 10px;
     border: 1px solid #ddd;
     border-radius: 8px;
     background-color: #fff;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     display: inline-block;
+}
 
+.eventos {
+    padding: 20px;
+    text-align: center;
+    /* Centralizar os elementos horizontalmente */
+}
+
+
+#search-button {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+}
+
+#search-button i {
+    font-size: 20px;
+    /* Adjust the size of the icon */
+    color: #333;
+    /* Adjust the color of the icon */
+}
+
+.search_container {
+    margin: 20px;
+    display: flex;
+    flex-direction: row;
 }
 
 .admin {
@@ -46,7 +77,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 0 auto; /* Para centralizar horizontalmente */
+    margin: 0 auto;
+    /* Para centralizar horizontalmente */
 }
 
 .card-evento img {
@@ -92,22 +124,24 @@
     left: 0;
     top: 0;
     width: 100%;
-    height: 100%;
-    overflow: auto;
+    height: 100vh;
+    overflow: hidden;
     background-color: rgba(0, 0, 0, 0.4);
 }
 
 /* Modal Content */
 .modal {
     background-color: #fefefe;
-    margin: 20% auto;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     padding: 20px;
     border: 1px solid #888;
     width: 80%;
     max-width: 400px;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    position: relative;
 }
 
 /* Close Button */
@@ -168,7 +202,7 @@ label {
     position: fixed;
     top: 0;
     left: -250px;
-    background-color: #ad9292;
+    background-color: rgba(104, 115, 133, 0.7);
     transition: left 0.3s ease;
     overflow-y: auto;
 }
@@ -186,7 +220,6 @@ label {
 .nav-menu input {
     float: left;
     margin-right: 20px;
-    /* Ajuste conforme necessário */
 }
 
 .nav-menu img {
@@ -202,9 +235,7 @@ label {
     text-decoration: none;
 }
 
-body.menu-aberto {
-    margin-left: 250px;
-}
+
 
 
 @media only screen and (min-width: 768px) {
@@ -215,9 +246,7 @@ body.menu-aberto {
     .nav-menu {
         width: 250px;
     }
-
 }
-
 
 @media only screen and (max-width: 767px) {
     .lista ul {
@@ -226,7 +255,7 @@ body.menu-aberto {
     }
 
     .nav-menu {
-        width: 50%;
+        width: 70%;
         left: -100%;
     }
 
@@ -243,14 +272,14 @@ body.menu-aberto {
     }
 
     .card-evento {
-        width: calc(100% - 40px);
-        margin: 10px 20px;
+        width: 100%;
+        margin: 10px 0;
     }
 }
 
 
-/* Estilo para o formulário de criar conta */
 
+/* Estilo para o formulário de criar conta */
 #criar-conta {
     max-width: 400px;
     margin: 0 auto;
@@ -260,9 +289,10 @@ body.menu-aberto {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-#criar-conta h2 {
+#criar-conta h2,
+.modal h2 {
     text-align: center;
-    font-size: 24px;
+    font-size: 26px;
     margin-bottom: 20px;
 }
 
@@ -276,9 +306,9 @@ body.menu-aberto {
 #criar-conta input[type="email"],
 #criar-conta input[type="password"],
 #criar-conta input[type="tel"] {
-    width: calc(100% - 10px); /* Ajuste para compensar o padding */
+    width: calc(100% - 10px);
     padding: 10px;
-    margin-bottom: 10px; /* Reduzi a margem inferior */
+    margin-bottom: 10px;
     border-radius: 5px;
     border: 1px solid #ccc;
 }
@@ -299,17 +329,28 @@ body.menu-aberto {
 
 
 
+/* Estilo para o modal de detalhe dos eventos */
+.modal-background {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Fundo escuro semi-transparente */
+}
 
 .modal-eventos {
     display: none;
     position: fixed;
-    z-index: 1;
+    background-color: rgba(189, 173, 173, 0.7);
+    z-index: 2;
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
     width: 60%;
     max-width: 600px;
-    background-color: #fff;
     border: 2px solid #ccc;
     border-radius: 8px;
     padding: 20px;
@@ -332,10 +373,8 @@ body.menu-aberto {
 
 .modal-content {
     width: 100%;
-    height: auto;
-    max-width: 100%; /* Ajusta para a largura máxima do modal */
-    max-height: 400px;
-    align-items: center;
+    max-width: 100%;
+    text-align: center; /* Centralizar conteúdo */
 }
 
 .botao {
@@ -366,6 +405,37 @@ body.menu-aberto {
 #modalDescricao {
     margin-bottom: 10px;
 }
-#img01{
+
+#img01 {
     width: 250px;
+    display: block;
+    margin: 0 auto; 
+}
+
+/*Estilo para o rodape*/
+footer {
+    background-color: rgba(104, 115, 133, 0.7);
+    color: #fff;
+    width: 100%;
+    text-align: center;
+
+}
+
+.menu ul {
+    list-style: none;
+    padding: 0;
+}
+
+.menu ul li {
+    display: inline-block;
+    margin-right: 20px;
+}
+
+.menu ul li a {
+    color: #fff;
+    text-decoration: none;
+}
+
+.copy {
+    margin-top: 20px;
 }
