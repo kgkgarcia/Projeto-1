@@ -25,20 +25,20 @@ document.addEventListener('DOMContentLoaded', function () {
     };
     xhr.send();
 });
-    // Função para abrir o modal e preencher os campos com os dados do evento
-    function openModal(nome, data, local, descricao, imagem, preco) {
-        document.getElementById("modalNome").textContent = nome;
-        document.getElementById("modalData").textContent = data;
-        document.getElementById("modalLocal").textContent = local;
-        document.getElementById("modalDescricao").textContent = descricao;
-        document.getElementById("modalPreco").textContent = "Preço: €" + preco;
-        document.getElementById("myModal").style.display = "block";
-    }
+// Função para abrir o modal e preencher os campos com os dados do evento
+function openModal(nome, data, local, descricao, imagem, preco) {
+    document.getElementById("modalNome").textContent = nome;
+    document.getElementById("modalData").textContent = data;
+    document.getElementById("modalLocal").textContent = local;
+    document.getElementById("modalDescricao").textContent = descricao;
+    document.getElementById("modalPreco").textContent = "Preço: €" + preco;
+    document.getElementById("myModal").style.display = "block";
+}
 
-    // Função para fechar o modal
-    function closeModal() {
-        document.getElementById("myModal").style.display = "none";
-    }
+// Função para fechar o modal
+function closeModal() {
+    document.getElementById("myModal").style.display = "none";
+}
 
 
 document.getElementById('perfil').addEventListener('click', function () {
@@ -98,9 +98,33 @@ document.getElementById("login").addEventListener("submit", function (event) {
 
     if (username === adminCredentials.username && password === adminCredentials.password) {
         // Login successful, redirect to management page
-        window.location.href = "../Pages/adminpage.html";
+        window.location.href = "../Pages/admin.html";
     } else {
         alert("Invalid username or password. Please try again.");
     }
 });
+
+
+window.addEventListener('scroll', function () {
+    var botaoVoltarTopo = document.getElementById('botaoVoltarTopo');
+
+    // Mostra o botão quando o usuário rolar a página para baixo
+    if (window.scrollY > 100) {
+        botaoVoltarTopo.style.display = 'block';
+    } else {
+        botaoVoltarTopo.style.display = 'none';
+    }
+});
+
+// Função para rolar a página de volta ao topo
+function voltarAoTopo() {
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth' // Rolagem suave
+    });
+}
+
+
+
+
 

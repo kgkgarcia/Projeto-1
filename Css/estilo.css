@@ -448,6 +448,23 @@ footer {
 
 .copy {
     margin-top: 20px;
-
     font-weight: bold;
+}
+
+
+
+.botao-voltar-topo {
+    display: none;
+    position: fixed;
+    bottom: 20px;
+    right: 20px; 
+    background-color: transparent; 
+    color: #007bff; 
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s; 
+}
+
+.botao-voltar-topo:hover {
+    color: #000000; 
 }
