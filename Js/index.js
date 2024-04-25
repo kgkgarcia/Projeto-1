@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         <img src="${evento.imagem}" alt="${evento.nome}">
                         <h3>${evento.nome}</h3>
                         <p>${evento.descricao}</p>
-                        <a href="#" class="botao" id="mais" onclick="openModal('${evento.nome}', '${evento.data}', '${evento.local}', '${evento.descricao}', '${evento.imagem}')">Ver mais</a>
+                        <button class="botao" id="mais" onclick="openModal('${evento.nome}', '${evento.data}', '${evento.local}', '${evento.descricao}', '${evento.imagem}', '${evento.preco}')">Ver mais</button>
                     </div>
                 `;
                 eventosContainer.innerHTML += cardEvento;
@@ -25,46 +25,20 @@ document.addEventListener('DOMContentLoaded', function () {
     };
     xhr.send();
 });
-
-// Função para abrir o modal com os detalhes do evento
-function openModal(nome, data, local, descricao, preco, imagem) {
-    const modal = document.getElementById('myModal');
-    const modalImg = document.getElementById('img01');
-    const modalNome = document.getElementById('modalNome');
-    const modalData = document.getElementById('modalData');
-    const modalLocal = document.getElementById('modalLocal');
-    const modalPreco = document.getElementById('modalPreco');
-    const modalDescricao = document.getElementById('modalDescricao');
-    const comprarBilhete = document.getElementById('comprarBilhete');
-
-    modal.style.display = 'block';
-    modalImg.src = imagem;
-    modalNome.textContent = nome;
-    modalData.textContent = "Data: " + data;
-    modalLocal.textContent = "Local: " + local;
-    modalPreco.textContent = "Preço: " + preco;
-    modalDescricao.textContent = descricao;
-
-    // Adiciona um evento de clique ao botão "Comprar Bilhete" para fechar o modal
-    comprarBilhete.addEventListener('click', closeModal);
-
-    // Fecha o modal se clicar fora dele
-    window.onclick = function(event) {
-        if (event.target == modal) {
-            closeModal();
-        }
+    // Função para abrir o modal e preencher os campos com os dados do evento
+    function openModal(nome, data, local, descricao, imagem, preco) {
+        document.getElementById("modalNome").textContent = nome;
+        document.getElementById("modalData").textContent = data;
+        document.getElementById("modalLocal").textContent = local;
+        document.getElementById("modalDescricao").textContent = descricao;
+        document.getElementById("modalPreco").textContent = "Preço: €" + preco;
+        document.getElementById("myModal").style.display = "block";
     }
-}
 
-// Função para fechar o modal
-function closeModal() {
-    const modal = document.getElementById('myModal');
-    modal.style.display = 'none';
-}
-
-
-
-
+    // Função para fechar o modal
+    function closeModal() {
+        document.getElementById("myModal").style.display = "none";
+    }
 
 
 document.getElementById('perfil').addEventListener('click', function () {

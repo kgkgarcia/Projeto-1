@@ -4,7 +4,7 @@
         "descricao": "Descrição do Evento 1",
         "data": "20/05/2024.",
         "local": "Local 1",
-        "preco": "Local 1",
+        "preco": "20",
         "imagem": "Imagens/evento2.jpg"
     },
     {
@@ -12,7 +12,7 @@
         "descricao": "Descrição do Evento 2",
         "data": "20/05/2024.",
         "local": "Local 1",
-        "preco": "Local 1",
+        "preco": "30",
         "imagem": "Imagens/evento1.jpg"
         
     },
@@ -21,7 +21,7 @@
         "descricao": "Descrição do Evento 3",
         "data": "20/05/2024.",
         "local": "Local 1",
-        "preco": "Local 1",
+        "preco": "45",
         "imagem": "Imagens/evento3.jpg"
         
     },
@@ -30,11 +30,11 @@
         "descricao": "Descrição do Evento 3",
         "data": "20/05/2024",
         "local": "Local 1",
-        "preco": "Local 1",
+        "preco": "50",
         "imagem": "Imagens/evento2.jpg"
     },
     {
-        "nome": "Evento 4",
+        "nome": "Evento 5",
         "descricao": "Descrição do Evento 3",
         "data": "20/05/2024",
         "local": "Local 1",
@@ -42,7 +42,7 @@
         "imagem": "Imagens/evento2.jpg"
     },
     {
-        "nome": "Evento 5",
+        "nome": "Evento 6",
         "descricao": "Descrição do Evento 5",
         "data": "20/05/2024",
         "local": "Local 1",
