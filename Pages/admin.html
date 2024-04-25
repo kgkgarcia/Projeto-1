@@ -17,7 +17,8 @@
             right: 20px;
             z-index: 9999;
         }
-        h3{
+
+        h3 {
             font-weight: bold;
             margin: 20px;
             font-family: sans-serif;
@@ -112,6 +113,54 @@
             </div>
         </div>
     </div>
+
+    <!-- Modal de Edição -->
+    <div class="modal fade" id="modalEditarEvento" tabindex="-1" role="dialog" aria-labelledby="modalEditarEventoLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalEditarEventoLabel">Editar Evento</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="editNomeEvento">Evento</label>
+                                <input type="text" class="form-control" id="editNomeEvento">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="editLocalEvento">Local</label>
+                                <input type="text" class="form-control" id="editLocalEvento">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="editDataEvento">Data</label>
+                                <input type="date" class="form-control" id="editDataEvento">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="editDescricaoEvento">Descrição</label>
+                                <input type="text" class="form-control" id="editDescricaoEvento">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                    <button type="button" class="btn btn-primary">Salvar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Rodape do site-->
     <footer>
         <div class="copy">
@@ -126,6 +175,7 @@
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
         </script>
     <script>
+
         document.addEventListener('DOMContentLoaded', function () {
             // Função para carregar o arquivo JSON
             function carregarEventos() {
@@ -140,7 +190,7 @@
                         }
                     }
                 };
-                xhr.open('GET', '../eventos.json', true); // Ajuste o caminho do arquivo JSON aqui
+                xhr.open('GET', '../eventos.json', true);
                 xhr.send();
             }
 
@@ -157,7 +207,7 @@
                 <td>${evento.local}</td>
                 <td>${evento.descricao}</td>
                 <td>
-                    <button type="button" class="btn btn-info btn-sm" onclick="editarEvento('${evento.nome}')">Editar</button>
+                    <button type="button" class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#modalEditarEvento" onclick="editarEvento('${evento.nome}')">Editar</button>
                     <button type="button" class="btn btn-danger btn-sm" onclick="removerEvento('${evento.nome}')">Remover</button>
                 </td>
             `;
@@ -171,7 +221,7 @@
 
         function sairPagina() {
             if (confirm("Deseja realmente sair desta página?")) {
-                window.location.href = "../index.html"; // Redireciona para a página index.html
+                window.location.href = "../index.html";
             }
         }
 
