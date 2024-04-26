@@ -1,53 +1,90 @@
 [
     {
-        "nome": "Evento 1",
-        "descricao": "Descrição do Evento 1",
-        "data": "20/05/2024.",
-        "local": "Local 1",
-        "preco": "20",
+        "nome": "Benfica vs Porto",
+        "descricao": "Os bilhetes que se encontram à venda são para um evento futebolístico, pedimos que mantenha as instalações limpas e haja de forma educada tendo em consideração os adeptos da sua equipa assim como os da equipa rival.",
+        "data": "12-06-2024",
+        "local": "Estádio da Luz, Lisboa, Portugal",
+        "preco": "25,99€",
         "imagem": "Imagens/evento2.jpg"
     },
     {
-        "nome": "Evento 2",
-        "descricao": "Descrição do Evento 2",
-        "data": "20/05/2024.",
-        "local": "Local 1",
-        "preco": "30",
+        "nome": "Portugal vs Argentina",
+        "descricao": "Os bilhetes que se encontram à venda são para um evento futebolístico, pedimos que mantenha as instalações limpas e haja de forma educada tendo em consideração os adeptos da sua equipa assim como os da equipa rival.",
+        "data": "05-08-2024",
+        "local": "Estádio da Luz, Lisboa, Portugal",
+        "preco": "43,75€",
         "imagem": "Imagens/evento1.jpg"
-        
     },
     {
-        "nome": "Evento 3",
-        "descricao": "Descrição do Evento 3",
-        "data": "20/05/2024.",
-        "local": "Local 1",
-        "preco": "45",
+        "nome": "Celta",
+        "descricao": "Estes bilhetes são para ver o espetáculo realizado pelas Tunas Académicas.",
+        "data": "14-07-2024",
+        "local": "Teatro Circo, Braga, Portugal",
+        "preco": "16€",
         "imagem": "Imagens/evento3.jpg"
-        
     },
     {
-        "nome": "Evento 4",
-        "descricao": "Descrição do Evento 3",
-        "data": "20/05/2024",
-        "local": "Local 1",
-        "preco": "50",
+        "nome": "Taylor Swift",
+        "descricao": "Bilhetes para ouvir a pop-star internacional querida entre muitos portugueses.",
+        "data": "24-05-2024",
+        "local": "Estádio da Luz, Lisboa, Portugal",
+        "preco": "62,75€",
         "imagem": "Imagens/evento2.jpg"
     },
     {
-        "nome": "Evento 5",
-        "descricao": "Descrição do Evento 3",
-        "data": "20/05/2024",
-        "local": "Local 1",
-        "preco": "Local 1",
+        "nome": "Harry Styles",
+        "descricao": "Bilhetes para ver o concerto do cantor internacional que ficou conhecido pelo grupo a que pertencia OneDirection.",
+        "data": "27-04-2027",
+        "local": "Passeio Marítimo de Algés, Lisboa, Portugal",
+        "preco": "75€",
         "imagem": "Imagens/evento2.jpg"
     },
     {
-        "nome": "Evento 6",
-        "descricao": "Descrição do Evento 5",
-        "data": "20/05/2024",
-        "local": "Local 1",
-        "preco": "Local 1",
+        "nome": "NosAlive",
+        "descricao": "Bilhete para mais uma edição do festival que não vais quer perder.",
+        "data": "13-07-2024",
+        "local": "Passeio Marítimo de Algés, Lisboa, Portugal",
+        "preco": "33€",
+        "imagem": "Imagens/evento2.jpg"
+    },
+    {
+        "nome": "Rock in Rio",
+        "descricao": "Bilhete para mais uma edição do festival que não vais quer perder.",
+        "data": "22-07-2024",
+        "local": "Parque Tejo, Lisboa, Portugal",
+        "preco": "55€",
+        "imagem": "Imagens/evento2.jpg"
+    },
+    {
+        "nome": "Orquestra do Norte",
+        "descricao": "Junte-se para ver um espectáculo de arrepiar.",
+        "data": "13-11-2024",
+        "local": "Teatro Circo, Braga, Portugal",
+        "preco": "34,63€",
+        "imagem": "Imagens/evento2.jpg"
+    },
+    {
+        "nome": "Formula 1",
+        "descricao": "Bilhetes para os camarins, pode ter interacção com os pilotos.",
+        "data": "05-02-2026",
+        "local": "Circuito Urbano da Boavista, Porto, Portugal",
+        "preco": "158,95€",
+        "imagem": "Imagens/evento2.jpg"
+    },
+    {
+        "nome": "Corrida da Falperra",
+        "descricao": "Passe para que possa ter acesso a zonas privadas.",
+        "data": "07-08-2024",
+        "local": "Falperra, Braga, Portugal",
+        "preco": "88,42€",
+        "imagem": "Imagens/evento2.jpg"
+    },
+    {
+        "nome": "Comic Con",
+        "descricao": "Venha ao evento que evento que reúne a temática de séries, filmes, jogos, anime e banda desenhada, tudo num só lugar.",
+        "data": "23-09-2025",
+        "local": "Exponor, Matosinhos, Porto, Portugal",
+        "preco": "15€",
         "imagem": "Imagens/evento2.jpg"
     }
-    
 ]

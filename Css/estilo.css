@@ -6,6 +6,7 @@ body {
     font-family: Arial, sans-serif;
     line-height: 1.6;
 }
+
 .lista {
     list-style-type: none;
     margin: 0;
@@ -38,19 +39,30 @@ body {
 
 .card-evento {
     width: calc(30% - 50px);
-    margin: 30px;
+    margin-bottom: 30px; /* Em vez de margin, use margin-bottom para garantir espaço entre os cards */
     padding: 10px;
     border: 1px solid #ddd;
     border-radius: 8px;
     background-color: #fff;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    display: inline-block;
-}
+    display: flex; /* Usa flexbox para alinhar os itens dentro do card */
+    flex-direction: column; /* Alinha o conteúdo na vertical */
+  }
 
 .eventos {
     padding: 20px;
     text-align: center;
-    /* Centralizar os elementos horizontalmente */
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.card-evento p {
+    font-size: 0.8em;
+    color: #666;
+    margin-bottom: 10px;
+    flex-grow: 1;
+    overflow: hidden;
 }
 
 
@@ -63,9 +75,7 @@ body {
 
 #search-button i {
     font-size: 20px;
-    /* Adjust the size of the icon */
     color: #333;
-    /* Adjust the color of the icon */
 }
 
 .search_container {
@@ -96,14 +106,6 @@ body {
     margin-bottom: 8px;
 }
 
-.card-evento p {
-    font-size: 0.9em;
-    /* Tamanho da fonte para o texto de descrição */
-    color: #666;
-    /* Cor do texto cinza escuro */
-    margin-bottom: 10px;
-    /* Margem inferior do texto de descrição */
-}
 
 .botao {
     display: inline-block;
@@ -238,8 +240,9 @@ label {
     text-decoration: none;
     font-weight: bold;
 }
-.nav-menu ul li a:hover{
-    color:  #0056b3;
+
+.nav-menu ul li a:hover {
+    color: #0056b3;
 }
 
 
@@ -457,14 +460,14 @@ footer {
     display: none;
     position: fixed;
     bottom: 20px;
-    right: 20px; 
-    background-color: transparent; 
-    color: #007bff; 
+    right: 20px;
+    background-color: transparent;
+    color: #007bff;
     padding: 10px 20px;
     cursor: pointer;
-    transition: background-color 0.3s, color 0.3s; 
+    transition: background-color 0.3s, color 0.3s;
 }
 
 .botao-voltar-topo:hover {
-    color: #000000; 
+    color: #000000;
 }
