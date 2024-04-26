@@ -39,14 +39,14 @@ body {
 
 .card-evento {
     width: calc(30% - 50px);
-    margin-bottom: 30px; /* Em vez de margin, use margin-bottom para garantir espaço entre os cards */
+    margin-bottom: 30px;
     padding: 10px;
     border: 1px solid #ddd;
     border-radius: 8px;
     background-color: #fff;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    display: flex; /* Usa flexbox para alinhar os itens dentro do card */
-    flex-direction: column; /* Alinha o conteúdo na vertical */
+    display: flex; 
+    flex-direction: column; 
   }
 
 .eventos {

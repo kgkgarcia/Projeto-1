@@ -86,5 +86,13 @@
         "local": "Exponor, Matosinhos, Porto, Portugal",
         "preco": "15€",
         "imagem": "https://media.wired.com/photos/62d7615394f7f03fb5e0c44e/master/pass/Comic-Con-Is-Back-Culture-1163223301.jpg"
-    }
+    },
+     {
+        "nome": "Feira da Ladra",
+        "data": "03-07-2024",
+        "local": "Campo de Santa Clara, Lisboa, Portugal",
+        "descricao": "Junte-se a uma das feiras mais conhecidas do país, onde boa disposição não falta.",
+        "preco": "15,99€",
+        "imagem": "https://viagemeturismo.abril.com.br/wp-content/uploads/2023/09/IMG_1499.jpg?quality=90&strip=info&w=1024.jpg"
+      }
 ]

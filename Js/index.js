@@ -116,11 +116,13 @@ window.addEventListener('scroll', function () {
     }
 });
 
+
+
 // Função para rolar a página de volta ao topo
 function voltarAoTopo() {
     window.scrollTo({
         top: 0,
-        behavior: 'smooth' // Rolagem suave
+        behavior: 'smooth'
     });
 }
 
