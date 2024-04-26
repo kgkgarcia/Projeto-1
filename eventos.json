@@ -5,7 +5,7 @@
         "data": "12-06-2024",
         "local": "Estádio da Luz, Lisboa, Portugal",
         "preco": "25,99€",
-        "imagem": "Imagens/evento2.jpg"
+        "imagem": "Imagens/portovsbenf.png"
     },
     {
         "nome": "Portugal vs Argentina",
@@ -13,7 +13,7 @@
         "data": "05-08-2024",
         "local": "Estádio da Luz, Lisboa, Portugal",
         "preco": "43,75€",
-        "imagem": "Imagens/evento1.jpg"
+        "imagem": "Imagens/argnt.jpg"
     },
     {
         "nome": "Celta",
@@ -21,7 +21,7 @@
         "data": "14-07-2024",
         "local": "Teatro Circo, Braga, Portugal",
         "preco": "16€",
-        "imagem": "Imagens/evento3.jpg"
+        "imagem": "Imagens/tuna.jpg"
     },
     {
         "nome": "Taylor Swift",
@@ -29,7 +29,7 @@
         "data": "24-05-2024",
         "local": "Estádio da Luz, Lisboa, Portugal",
         "preco": "62,75€",
-        "imagem": "Imagens/evento2.jpg"
+        "imagem": "Imagens/taylor.jpg"
     },
     {
         "nome": "Harry Styles",
@@ -37,7 +37,7 @@
         "data": "27-04-2027",
         "local": "Passeio Marítimo de Algés, Lisboa, Portugal",
         "preco": "75€",
-        "imagem": "Imagens/evento2.jpg"
+        "imagem": "Imagens/harry.jpg"
     },
     {
         "nome": "NosAlive",
