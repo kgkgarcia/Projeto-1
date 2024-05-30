@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="pt-pt">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../Css/estilo.css">
+    <script src="https://kit.fontawesome.com/a563638dec.js" crossorigin="anonymous"></script>
+    <link rel="icon" href="../../Imagens/logo.jpg">
+    <title>Criar Conta</title>
+</head>
+
+<body>
+    <nav class="navbar">
+        <a href="index.html" class="home-icon"><img src="../../Imagens/icons8-casa-30.png" alt="Home"></a>
+    </nav>
+
+    <form id="criar-conta">
+        <img src="../../Imagens/logo.jpg" alt="Logo" class="admin">
+        <h2>Criar Conta</h2>
+        <label for="username">Username:</label><br>
+        <input type="text" id="username" name="username" required><br>
+        <label for="email">Email:</label><br>
+        <input type="email" id="email" name="email" required><br>
+        <label for="password">Password:</label><br>
+        <input type="password" id="password" name="password" required><br>
+        <label for="repeat-password">Repetir Password:</label><br>
+        <input type="password" id="repeat-password" name="repeat-password" required><br>
+        <label for="phone">Número de Telemóvel:</label><br>
+        <input type="tel" id="phone" name="phone" pattern="[0-9]{9}" placeholder="Ex: 912345678" required><br>
+        <input type="button" value="Criar Conta" class="botaolog" onclick="novoUser()">
+    </form>
+    <!-- Rodape do site-->
+    <footer>
+        <div class="menu">
+            <ul>
+                <li><a href="index.html">Página Inicial</a></li>
+            </ul>
+        </div>
+        <div class="empresa">
+            <h3>Sobre Nossa Empresa</h3>
+            <p>A MyTicket é uma plataforma líder na venda de bilhetes para uma ampla variedade de eventos.<br>Desde
+                grandes festivais até eventos locais, estamos aqui para conectar você aos melhores momentos.</p>
+        </div>
+        <div class="copy">
+            &copy; 2024 MyTicket. Todos os direitos reservados.
+        </div>
+    </footer>
+</body>
+
+<script type="text/JavaScript">
+    async function novoUser() {
+        var username = document.getElementById("username").value;
+        var email = document.getElementById("email").value;
+        var password = document.getElementById("password").value;
+        var repeatPassword = document.getElementById("repeat-password").value;
+        var phone = document.getElementById("phone").value;
+
+        // Validação de senha
+        if (password !== repeatPassword) {
+            alert('As senhas não coincidem.');
+            return;
+        }
+
+        var dados = {
+            name: username,
+            email: email,
+            phone: phone,
+            password: password,
+            isAdmin: false,
+        };
+
+        try {
+            const response = await fetch("http://localhost:8080/auth/register", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(dados),
+            });
+
+            if (!response.ok) {
+                throw new Error("Erro ao criar conta");
+            }
+
+            const data = await response.json();
+            alert("Conta criada com sucesso!");
+            // Redirecionar ou fazer algo após criar a conta com sucesso
+        } catch (error) {
+            alert("Erro ao criar conta: " + error.message);
+        }
+    }
+
+
+</script>
+
+
+</html>

@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="pt-pt">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../Css/estilo.css">
+    <link rel="icon" href="../../Imagens/logo.jpg">
+    <script src="https://kit.fontawesome.com/a563638dec.js" crossorigin="anonymous"></script>
+    <title>MyTicket</title>
+</head>
+
+<body>
+
+    <header class="header">
+        <div>
+            <div class="lista">
+                <div>
+                    <ul class="icon_menu">
+                        <li><a href="#"><img src="../../Imagens/icons8-cardápio-30.png" alt="" id="navegacao"></a></li>
+                    </ul>
+                </div>
+                <div>
+                    <ul class="nav_menu">
+                        <li><a href="#"><img src="../../Imagens/icons8-usuário-de-gênero-neutro-32.png" alt=""
+                                    id="perfil"></a>
+                        </li>
+                        <li><a href="#"><img src="../../Imagens/icons8-carrinho-30.png" alt="" id="carrinho"></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Modal de login-->
+    <div id="modal-container" class="modal-container">
+        <div class="modal">
+            <span class="close-button">&times;</span>
+            <img src="../../Imagens/logo.jpg" alt="Logo" class="admin">
+            <h2>Login</h2>
+            <form id="login">
+                <label for="username">Email:</label><br>
+                <input type="email" id="email" name="email"><br>
+                <label for="password">Password:</label><br>
+                <input type="password" id="password" name="password"><br>
+                <a href="criarconta.html">Criar Conta</a>
+                <input type="button" value="Login" class="botaolog" onclick="login()">
+            </form>
+        </div>
+    </div>
+
+
+    <!-- Barra de navegação lateral-->
+    <div class="nav-menu" id="navMenu">
+        <div class="search_container">
+            <input type="search" id="search" name="q" placeholder="Pesquisar...">
+            <button type="submit" id="search-button"><i class="fas fa-search"></i></button>
+        </div>
+        <ul>
+
+            <li>
+                <h2>CATEGORIAS</h2>
+            </li>
+            <li><a href="#">Desporto</a></li>
+            <li><a href="#">Cultura</a></li>
+            <li><a href="#">Música</a></li>
+            <li><a href="#">Arte</a></li>
+            <li><a href="#">Educação</a></li>
+            <li><a href="#">Viagens</a></li>
+            <li><a href="#">Tecnologia</a></li>
+        </ul>
+    </div>
+
+
+    <h3 class="titulo">Próximos Eventos</h3>
+    <section class="eventos" id="eventosContainer">
+        <!-- Conteúdo da seção de eventos será inserido dinamicamente -->
+    </section>
+
+    <!-- Modal com informações de cada evento -->
+    <div id="myModal" class="modal-eventos">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <div id="caption">
+            <h3 id="modalNome"></h3>
+            <p id="modalData"></p>
+            <p id="modalLocal"></p>
+            <p id="modalDescricao"></p>
+            <p id="modalPreco"></p>
+            <button class="botao" id="comprarBilhete" onclick="closeModal()">Adicionar ao Carrinho</button>
+        </div>
+    </div>
+
+    <a href="#" class="botao-voltar-topo" id="botaoVoltarTopo"><i class="fa-solid fa-up-long"></i></a>
+
+
+    <!-- Rodape do site-->
+    <footer>
+        <div class="menu">
+            <ul>
+                <li><a href="index.html">Página Inicial</a></li>
+            </ul>
+        </div>
+        <div class="empresa">
+            <h3>Sobre Nossa Empresa</h3>
+            <p>A MyTicket é uma plataforma líder na venda de bilhetes para uma ampla variedade de eventos.<br>Desde
+                grandes festivais até eventos locais, estamos aqui para conectar você aos melhores momentos.</p>
+        </div>
+        <div class="copy">
+            &copy; 2024 MyTicket. Todos os direitos reservados.
+        </div>
+    </footer>
+
+</body>
+
+<script>
+    window.addEventListener('scroll', function () {
+        var botaoVoltarTopo = document.getElementById('botaoVoltarTopo');
+
+        // Mostra o botão quando o usuário rolar a página para baixo
+        if (window.scrollY > 100) {
+            botaoVoltarTopo.style.display = 'block';
+        } else {
+            botaoVoltarTopo.style.display = 'none';
+        }
+    });
+    // Função para rolar a página de volta ao topo
+    function voltarAoTopo() {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    }
+
+    document.getElementById('perfil').addEventListener('click', function () {
+        document.getElementById('modal-container').style.display = 'block';
+    });
+
+    document.querySelector('.close-button').addEventListener('click', function () {
+        document.getElementById('modal-container').style.display = 'none';
+    });
+
+    window.addEventListener('click', function (event) {
+        if (event.target == document.getElementById('modal-container')) {
+            document.getElementById('modal-container').style.display = 'none';
+        }
+    });
+
+
+
+
+    document.addEventListener("DOMContentLoaded", function () {
+        var navegacaoImg = document.getElementById("navegacao");
+        var navMenu = document.getElementById("navMenu");
+        // Função para fechar o menu
+        function fecharMenu() {
+            navMenu.classList.remove("open");
+            document.body.classList.remove("menu-aberto");
+        }
+
+        // Abrir o menu quando a imagem de navegação for clicada
+        navegacaoImg.addEventListener("click", function () {
+            navMenu.classList.toggle("open");
+            document.body.classList.toggle("menu-aberto");
+        });
+
+        // Fechar o menu quando clicar fora dele
+        document.addEventListener("click", function (event) {
+            var clicadoDentroMenu = navMenu.contains(event.target);
+            var clicadoNoIconeNavegacao = navegacaoImg.contains(event.target);
+            if (!clicadoDentroMenu && !clicadoNoIconeNavegacao) {
+                fecharMenu();
+            }
+        });
+    });
+
+
+    const login = async () => {
+        var dados = {
+            email: document.getElementById("email").value,
+            password: document.getElementById("password").value,
+        };
+        const response = await fetch("http://localhost:8080/auth/login", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(dados),
+        })
+        console.log(response.ok);
+        dados = await response.json()
+        if (!response.ok) {
+            alert("Erro ao fazer login");
+        }
+        else {
+            alert("Login efetuado com sucesso");
+            console.log(dados);
+
+            // Guardar o token no local storage
+            localStorage.setItem("token", dados.token);
+        }
+    }
+
+
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const eventosContainer = document.getElementById('eventosContainer');
+
+        // Fazendo uma requisição AJAX para carregar os eventos do backend
+        const xhr = new XMLHttpRequest();
+        xhr.open('GET', 'http://localhost:8080/eventos/listar', true);
+        xhr.onload = function () {
+            if (xhr.status === 200) {
+                const eventos = JSON.parse(xhr.responseText);
+                eventos.forEach(evento => {
+                    const cardEvento = `
+                    <div class="card-evento">
+                        <img src="${evento.Foto}" alt="${evento.nome}">
+                        <h3>${evento.nome}</h3>
+                        <p>${evento.descricao || 'Descrição não disponível'}</p>
+                        <button class="botao" id="mais" onclick="openModal()">Ver mais</button>
+                    </div>
+                `;
+                    eventosContainer.innerHTML += cardEvento;
+                });
+            } else {
+                console.error('Falha ao carregar os eventos.');
+            }
+        };
+        xhr.send();
+    });
+
+ 
+
+
+</script>
+
+</html>

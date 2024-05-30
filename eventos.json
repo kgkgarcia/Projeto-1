@@ -4,7 +4,7 @@
         "descricao": "Os bilhetes que se encontram à venda são para um evento futebolístico, pedimos que mantenha as instalações limpas e haja de forma educada tendo em consideração os adeptos da sua equipa assim como os da equipa rival.",
         "data": "12-06-2024",
         "local": "Estádio da Luz, Lisboa, Portugal",
-        "preco": "25,99€",
+        "preco": "25,99",
         "imagem": "Imagens/portovsbenf.png"
     },
     {
@@ -12,7 +12,7 @@
         "descricao": "Os bilhetes que se encontram à venda são para um evento futebolístico, pedimos que mantenha as instalações limpas e haja de forma educada tendo em consideração os adeptos da sua equipa assim como os da equipa rival.",
         "data": "05-08-2024",
         "local": "Estádio da Luz, Lisboa, Portugal",
-        "preco": "43,75€",
+        "preco": "43,75",
         "imagem": "Imagens/argnt.jpg"
     },
     {
@@ -20,7 +20,7 @@
         "descricao": "Estes bilhetes são para ver o espetáculo realizado pelas Tunas Académicas.",
         "data": "14-07-2024",
         "local": "Teatro Circo, Braga, Portugal",
-        "preco": "16€",
+        "preco": "16",
         "imagem": "Imagens/tuna.jpg"
     },
     {
@@ -28,7 +28,7 @@
         "descricao": "Bilhetes para ouvir a pop-star internacional querida entre muitos portugueses.",
         "data": "24-05-2024",
         "local": "Estádio da Luz, Lisboa, Portugal",
-        "preco": "62,75€",
+        "preco": "62,75",
         "imagem": "Imagens/taylor.jpg"
     },
     {
@@ -36,7 +36,7 @@
         "descricao": "Bilhetes para ver o concerto do cantor internacional que ficou conhecido pelo grupo a que pertencia OneDirection.",
         "data": "27-04-2027",
         "local": "Passeio Marítimo de Algés, Lisboa, Portugal",
-        "preco": "75€",
+        "preco": "75",
         "imagem": "Imagens/harry.jpg"
     },
     {
@@ -44,7 +44,7 @@
         "descricao": "Bilhete para mais uma edição do festival que não vais quer perder.",
         "data": "13-07-2024",
         "local": "Passeio Marítimo de Algés, Lisboa, Portugal",
-        "preco": "33€",
+        "preco": "33",
         "imagem": "https://everythingisnew.pt/wp-content/uploads/NA24_2024_SITE_2_v2.jpg"
     },
     {
@@ -52,7 +52,7 @@
         "descricao": "Bilhete para mais uma edição do festival que não vais quer perder.",
         "data": "22-07-2024",
         "local": "Parque Tejo, Lisboa, Portugal",
-        "preco": "55€",
+        "preco": "55",
         "imagem": "data:image/jpeg;base64,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"
     },
     {
@@ -60,7 +60,7 @@
         "descricao": "Junte-se para ver um espectáculo de arrepiar.",
         "data": "13-11-2024",
         "local": "Teatro Circo, Braga, Portugal",
-        "preco": "34,63€",
+        "preco": "34,63",
         "imagem": "https://www.visitguimaraes.travel/turismoguimaraes/uploads/geo_article/image/998/2023_10_21_orquesta_do_norte.jpg"
     },
     {
@@ -68,7 +68,7 @@
         "descricao": "Bilhetes para os camarins, pode ter interacção com os pilotos.",
         "data": "05-02-2026",
         "local": "Circuito Urbano da Boavista, Porto, Portugal",
-        "preco": "158,95€",
+        "preco": "158,95",
         "imagem": "https://s2-autoesporte.glbimg.com/8AoGE-Jr2nFSrsfxSm8DT7WayQk=/0x0:1080x645/888x0/smart/filters:strip_icc()/i.s3.glbimg.com/v1/AUTH_cf9d035bf26b4646b105bd958f32089d/internal_photos/bs/2022/Z/F/C923T1TlORxpzmAb8lAg/ferraro.jpg"
     },
     {
@@ -76,7 +76,7 @@
         "descricao": "Passe para que possa ter acesso a zonas privadas.",
         "data": "07-08-2024",
         "local": "Falperra, Braga, Portugal",
-        "preco": "88,42€",
+        "preco": "88,42",
         "imagem": "https://images.autosport.pt/2017/05/10-1-zoom-motorsport-falperra-2017-3.jpg"
     },
     {
@@ -84,7 +84,7 @@
         "descricao": "Venha ao evento que evento que reúne a temática de séries, filmes, jogos, anime e banda desenhada, tudo num só lugar.",
         "data": "23-09-2025",
         "local": "Exponor, Matosinhos, Porto, Portugal",
-        "preco": "15€",
+        "preco": "15",
         "imagem": "https://media.wired.com/photos/62d7615394f7f03fb5e0c44e/master/pass/Comic-Con-Is-Back-Culture-1163223301.jpg"
     },
      {
@@ -92,7 +92,7 @@
         "data": "03-07-2024",
         "local": "Campo de Santa Clara, Lisboa, Portugal",
         "descricao": "Junte-se a uma das feiras mais conhecidas do país, onde boa disposição não falta.",
-        "preco": "15,99€",
+        "preco": "15,99",
         "imagem": "https://viagemeturismo.abril.com.br/wp-content/uploads/2023/09/IMG_1499.jpg?quality=90&strip=info&w=1024.jpg"
       }
 ]

@@ -288,12 +288,11 @@ label {
 }
 
 
-
 /* Estilo para o formulário de criar conta */
 #criar-conta {
     max-width: 400px;
     margin: 0 auto;
-    padding: 20px;
+    padding: 10px; /* Diminuído de 20px para 10px */
     background-color: #fff;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -302,13 +301,13 @@ label {
 #criar-conta h2,
 .modal h2 {
     text-align: center;
-    font-size: 26px;
-    margin-bottom: 20px;
+    font-size: 24px; /* Diminuído de 26px para 24px */
+    margin-bottom: 15px; /* Diminuído de 20px para 15px */
 }
 
 #criar-conta label {
     display: block;
-    margin-bottom: 8px;
+    margin-bottom: 3px; /* Diminuído de 8px para 3px */
     font-weight: bold;
 }
 
@@ -316,9 +315,10 @@ label {
 #criar-conta input[type="email"],
 #criar-conta input[type="password"],
 #criar-conta input[type="tel"] {
-    width: calc(100% - 10px);
-    padding: 10px;
-    margin-bottom: 10px;
+    width: calc(100% - 8px); /* Ajuste proporcional ao padding */
+    padding: 8px; /* Diminuído de 10px para 8px */
+    margin-bottom: 8px; /* Diminuído de 10px para 8px */
+    margin-top: 0; /* Adicionado para remover qualquer margem superior */
     border-radius: 5px;
     border: 1px solid #ccc;
 }
@@ -326,7 +326,7 @@ label {
 #criar-conta input[type="submit"] {
     background-color: #4CAF50;
     color: white;
-    padding: 10px 20px;
+    padding: 8px 16px; /* Diminuído de 10px 20px para 8px 16px */
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -336,8 +336,6 @@ label {
 #criar-conta input[type="submit"]:hover {
     background-color: #45a049;
 }
-
-
 
 /* Estilo para o modal de detalhe dos eventos */
 .modal-background {
