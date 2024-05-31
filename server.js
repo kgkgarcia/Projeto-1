@@ -28,14 +28,13 @@ app.use('/Imagens', express.static(path.join(__dirname, 'Imagens')));
 const authRoutes = require('./routes/auth');
 app.use('/auth', authRoutes);
 
-// Rota de Admin
+// Rota de Admin (Protegida por Middleware)
 const adminRoutes = require('./routes/privado');
 app.use('/admin', adminMiddleware, adminRoutes);
 
 // Rota Eventos
 const eventosRoutes = require('./routes/eventos');
 app.use('/eventos', eventosRoutes);
-
 
 // Porta
 const port = process.env.SERVER_PORT || 8080;

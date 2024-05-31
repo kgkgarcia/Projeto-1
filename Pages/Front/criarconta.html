@@ -81,6 +81,7 @@
 
             if (!response.ok) {
                 throw new Error("Erro ao criar conta");
+                console.console.log();
             }
 
             const data = await response.json();

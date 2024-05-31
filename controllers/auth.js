@@ -14,7 +14,7 @@ exports.register = async (req, res) => {
                 email: email,
                 nome: name,
                 numtel: phone,
-               password: hashedPassword,
+                password: hashedPassword,
                 isAdmin: isAdmin
             },
         })
@@ -34,8 +34,8 @@ exports.login = async (req, res) => {
         if (user) {
             const passwordIsValid = await bcrypt.compare(password, user.password);
             if (passwordIsValid) {
-                const accessToken = authenticateUtil.generateAccessToken({ id: user.id, name: user.name, isAdmin: user.isAdmin });
-                res.status(200).json({ name: user.name, token: accessToken });
+                const accessToken = authenticateUtil.generateAccessToken({ id: user.id, name: user.nome, isAdmin: user.isAdmin });
+                res.status(200).json({ name: user.nome, token: accessToken, isAdmin: user.isAdmin });
             } else {
                 res.status(401).json({ msg: "Password inválida!" });
             }
@@ -46,6 +46,7 @@ exports.login = async (req, res) => {
         res.status(500).json({ msg: "Erro interno do servidor: " + error.message });
     }
 }
+
 
 exports.getUserInfo = async (req, res) => {
     try {

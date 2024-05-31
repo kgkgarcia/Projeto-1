@@ -173,7 +173,6 @@
         });
     });
 
-
     const login = async () => {
         var dados = {
             email: document.getElementById("email").value,
@@ -185,20 +184,49 @@
                 "Content-Type": "application/json",
             },
             body: JSON.stringify(dados),
-        })
+        });
         console.log(response.ok);
-        dados = await response.json()
+        dados = await response.json();
         if (!response.ok) {
             alert("Erro ao fazer login");
-        }
-        else {
+        } else {
             alert("Login efetuado com sucesso");
             console.log(dados);
 
             // Guardar o token no local storage
             localStorage.setItem("token", dados.token);
+
+            // Verificar se o usuário é administrador e redirecionar
+            if (dados.isAdmin) {
+                window.location.href = "/admin"; // Redireciona para a página de admin
+            } else {
+                window.location.href = "/dashboard"; // Redireciona para a página normal do usuário
+            }
         }
+    };
+
+    const getProtectedData = async () => {
+    const token = localStorage.getItem('token');
+
+    const response = await fetch("http://localhost:8080/admin/some-protected-route", {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`
+        }
+    });
+
+    if (response.ok) {
+        const data = await response.json();
+        console.log(data);
+    } else {
+        console.error('Não está autorizado');
     }
+};
+
+
+
+
 
 
 
@@ -229,7 +257,7 @@
         xhr.send();
     });
 
- 
+
 
 
 </script>

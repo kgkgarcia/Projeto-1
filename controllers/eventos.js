@@ -3,60 +3,43 @@ const prisma = new PrismaClient();
 
 exports.adicionarevento = async (req, res) => {
     try {
-        const { nome, data, localizacao, Foto, categoriaEventoId } = req.body;
-        const novoEvento = await prisma.evento.create({
+        const { nome, data, localizacao, foto, descricao, categoriaId } = req.body;
+        const evento = await prisma.evento.create({
             data: {
-                nome: nome,
-                data: new Date(data),
-                localizacao: localizacao,
-                Foto: Foto,
-                categoriaEventoId: categoriaEventoId
-            },
+                nome,
+                data,
+                localizacao,
+                foto,
+                descricao,
+                categoriaEvento: {
+                    connect: { id: categoriaId }
+                }
+            }
         });
-        res.status(201).json(novoEvento);
+        res.status(201).json({ evento });
     } catch (error) {
         res.status(500).json({ msg: "Erro interno do servidor: " + error.message });
     }
 }
 
-
-exports.listarevento = async (req, res) => {
-    try {
-        const eventos = await prisma.evento.findMany();
-        return res.status(200).json(eventos);
-    } catch (error) {
-        return res.status(500).json({ msg: "Erro interno do servidor: " + error.message });
-    }
-}
-
-
 exports.editarevento = async (req, res) => {
     try {
         const { id } = req.params;
-        const { nome, data, localizacao, Foto, categoriaEventoId } = req.body;
-
-        // Verifica se o evento existe
-        const eventoExistente = await prisma.evento.findUnique({
-            where: { id: parseInt(id) },
-        });
-
-        if (!eventoExistente) {
-            return res.status(404).json({ msg: "Evento não encontrado" });
-        }
-
-        // Atualiza o evento
-        const eventoAtualizado = await prisma.evento.update({
+        const { nome, data, localizacao, foto, descricao, categoriaId } = req.body;
+        const evento = await prisma.evento.update({
             where: { id: parseInt(id) },
             data: {
-                nome: nome,
-                data: data ? new Date(data) : eventoExistente.data,
-                localizacao: localizacao,
-                Foto: Foto,
-                categoriaEventoId: categoriaEventoId
-            },
+                nome,
+                data,
+                localizacao,
+                foto,
+                descricao,
+                categoriaEvento: {
+                    connect: { id: categoriaId }
+                }
+            }
         });
-
-        res.status(200).json(eventoAtualizado);
+        res.status(200).json({ evento });
     } catch (error) {
         res.status(500).json({ msg: "Erro interno do servidor: " + error.message });
     }
@@ -88,3 +71,73 @@ exports.apagarevento = async (req, res) => {
 }
 
 
+exports.listareventoALL = async (req, res) => {
+    try {
+        const eventos = await prisma.evento.findMany();
+        return res.status(200).json(eventos);
+    } catch (error) {
+        return res.status(500).json({ msg: "Erro interno do servidor: " + error.message });
+    }
+}
+
+exports.listareventoID = async (req, res) => {
+    try {
+        const { id } = req.params;
+        // Busca o evento pelo ID
+        const evento = await prisma.evento.findUnique({
+            where: { id: parseInt(id) },
+        });
+
+        if (!evento) {
+            return res.status(404).json({ msg: "Evento não encontrado" });
+        }
+
+        return res.status(200).json(evento);
+    } catch (error) {
+        return res.status(500).json({ msg: "Erro interno do servidor: " + error.message });
+    }
+}
+
+exports.listareventoCAT = async (req, res) => {
+    try {
+        const { categoriaEventoId } = req.params;
+        // Verifica se o evento existe
+        const eventoExistente = await prisma.evento.findUnique({
+            where: { categoriaEventoId: parseInt(categoriaEventoId) },
+        });
+
+        if (!eventoExistente) {
+            return res.status(404).json({ msg: "Evento não encontrado" });
+        }
+        // Lista aquele o evento 
+        const evento = await prisma.evento.findUnique({
+            where: { categoriaEventoId: parseInt(categoriaEventoId) },
+        });
+
+        return res.status(200).json(evento);
+    } catch (error) {
+        return res.status(500).json({ msg: "Erro interno do servidor: " + error.message });
+    }
+}
+
+exports.listareventoNOME = async (req, res) => {
+    try {
+        const { nome } = req.params;
+        // Verifica se o evento existe
+        const eventoExistente = await prisma.evento.findUnique({
+            where: { nome: parseInt(nome) },
+        });
+
+        if (!eventoExistente) {
+            return res.status(404).json({ msg: "Evento não encontrado" });
+        }
+        // Lista aquele o evento 
+        const evento = await prisma.evento.findUnique({
+            where: { nome: parseInt(nome) },
+        });
+
+        return res.status(200).json(evento);
+    } catch (error) {
+        return res.status(500).json({ msg: "Erro interno do servidor: " + error.message });
+    }
+}
