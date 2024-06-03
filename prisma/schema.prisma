@@ -17,7 +17,7 @@ model Utilizador {
     email    String     @unique
     isAdmin  Boolean    @default(false)
     password String
-    numtel   Int
+    numtel   String
     // Se houver mais campos, adicione aqui
     Carrinho Carrinho[]
 }

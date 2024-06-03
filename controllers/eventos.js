@@ -2,25 +2,26 @@ const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
 exports.adicionarevento = async (req, res) => {
+    const { nome, data, localizacao, foto, descricao, categoriaEventoId } = req.body;
     try {
-        const { nome, data, localizacao, foto, descricao, categoriaId } = req.body;
         const evento = await prisma.evento.create({
             data: {
                 nome,
-                data,
+                data: new Date(data),
                 localizacao,
-                foto,
+                Foto: foto,
                 descricao,
-                categoriaEvento: {
-                    connect: { id: categoriaId }
-                }
+                categoriaEventoId
             }
         });
-        res.status(201).json({ evento });
+        res.status(201).json(evento);
     } catch (error) {
-        res.status(500).json({ msg: "Erro interno do servidor: " + error.message });
+        console.error("Erro ao adicionar o evento:", error);
+        res.status(500).json({ error: "Não foi possível adicionar o evento" });
     }
-}
+};
+
+
 
 exports.editarevento = async (req, res) => {
     try {
@@ -34,9 +35,7 @@ exports.editarevento = async (req, res) => {
                 localizacao,
                 foto,
                 descricao,
-                categoriaEvento: {
-                    connect: { id: categoriaId }
-                }
+                categoriaEventoId
             }
         });
         res.status(200).json({ evento });

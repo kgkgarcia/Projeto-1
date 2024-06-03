@@ -36,6 +36,16 @@ app.use('/admin', adminMiddleware, adminRoutes);
 const eventosRoutes = require('./routes/eventos');
 app.use('/eventos', eventosRoutes);
 
+
+// Rota Bilhetes
+const bilhetesRoutes = require('./routes/bilhetes');
+app.use('/eventos', bilhetesRoutes);
+
+
+//categorias
+const categoriasRoutes = require('./routes/categorias');
+app.use('/bilhetes', categoriasRoutes);
+
 // Porta
 const port = process.env.SERVER_PORT || 8080;
 app.listen(port, () => {

@@ -70,13 +70,15 @@
             isAdmin: false,
         };
 
+    
         try {
             const response = await fetch("http://localhost:8080/auth/register", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify(dados),
+                body:  JSON.stringify(dados, null, 2),
+        
             });
 
             if (!response.ok) {
@@ -86,7 +88,7 @@
 
             const data = await response.json();
             alert("Conta criada com sucesso!");
-            // Redirecionar ou fazer algo após criar a conta com sucesso
+            window.location.href = "http://localhost:8080/index.html"; 
         } catch (error) {
             alert("Erro ao criar conta: " + error.message);
         }

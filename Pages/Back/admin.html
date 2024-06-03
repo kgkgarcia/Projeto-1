@@ -48,7 +48,8 @@
                     <table class="table table-hover">
                         <thead>
                             <tr>
-                                <th scope="col">Evento</th>
+                                <th scope="col">Id</th>
+                                <th scope="col">Nome</th>
                                 <th scope="col">Data</th>
                                 <th scope="col">Local</th>
                                 <th scope="col">Descrição</th>
@@ -78,13 +79,13 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="">Evento</label>
-                                    <input type="text" class="form-control">
+                                    <input type="text" class="form-control" id="evento">
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="">Local</label>
-                                    <input type="text" class="form-control">
+                                    <input type="text" class="form-control" id="local">
                                 </div>
                             </div>
                         </div>
@@ -92,19 +93,19 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="">Data</label>
-                                    <input id="txtdata" type="date" class="form-control">
+                                    <input id="data" type="date" class="form-control">
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="">Descrição</label>
-                                    <input type="text" class="form-control">
+                                    <input type="text" class="form-control" id="descricao">
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="">Link da imagem</label>
-                                    <input type="text" class="form-control">
+                                    <input type="text" class="form-control" id="foto">
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -119,7 +120,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-                        <button type="submit" class="btn btn-primary">Guardar</button>
+                        <button type="submit" class="btn btn-primary" onclick="novoEvento()">Guardar</button>
                     </div>
                 </div>
             </div>
@@ -175,7 +176,7 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Remover</button>
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-                        <button type="button" class="btn btn-primary">Salvar</button>
+                        <button type="button" class="btn btn-primary" onclick="editarEvento(idDoEvento)">Salvar</button>
                     </div>
                 </div>
             </div>
@@ -264,14 +265,15 @@
                         eventos.forEach(evento => {
                             const row = document.createElement('tr');
                             row.innerHTML = `
+                    <td>${evento.id}</td>
                     <td>${evento.nome}</td>
                     <td>${new Date(evento.data).toLocaleDateString()}</td>
                     <td>${evento.localizacao}</td>
                     <td>${evento.descricao}</td>
                     <td>
                         <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                        data-bs-target="#modalEditarEvento">Editar</button>
-                        <button type="button" class="btn btn-danger">Excluir</button>
+                        data-bs-target="#modalEditarEvento" onclick="openEditModal()" id="editar">Editar</button>
+                        <button type="button" class="btn btn-danger" onclick="apagarEvento(id)">Excluir</button>
                     </td>
                 `;
                             eventosTableBody.appendChild(row);
@@ -282,112 +284,152 @@
 
 
 
-            document.addEventListener('DOMContentLoaded', function () {
-                const modalBilhete = new bootstrap.Modal(document.getElementById('modalBilhete'));
-
-                // Botão "Adicionar Bilhete"
-                const btnAdicionarBilhete = document.querySelector('#modalBilhete button[type="submit"]');
-                btnAdicionarBilhete.addEventListener('click', function () {
-                    modalBilhete.hide();
-                    // Adicione aqui a lógica para enviar os dados do novo bilhete para o backend
-                });
-            });
-
-
             function sairPagina() {
                 if (confirm("Deseja realmente sair desta página?")) {
-                    window.location.href = "../index.html";
+                    window.location.href = "http://localhost:8080/index.html";
+                }
+            }
+
+            async function novoEvento() {
+                var nome = document.getElementById("evento").value;
+                var localizacao = document.getElementById("local").value;
+                var data = document.getElementById("data").value;
+                var descricao = document.getElementById("descricao").value;
+                var foto = document.getElementById("foto").value;
+                var categoriaEventoId = document.getElementById("categoriaselect").value;
+
+                var dados = {
+                    nome: nome,
+                    data: data,
+                    localizacao: localizacao,
+                    descricao: descricao,
+                    foto: foto,
+                    categoriaEventoId: parseInt(categoriaEventoId, 10),
+                };
+
+                console.log(JSON.stringify(dados, null, 2))
+
+                try {
+                    const response = await fetch("http://localhost:8080/eventos/adicionar", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify(dados, null, 2),
+                    });
+
+                    if (!response.ok) {
+                        throw new Error("Erro ao criar evento");
+                    }
+
+                    const data = await response.json();
+                    alert("Evento criado com sucesso!");
+                    window.location.href = "http://localhost:8080/admin";
+
+                } catch (error) {
+                    alert("Erro ao criar evento: " + error.message);
                 }
             }
 
 
 
-            // Script para criar um evento
-            document.addEventListener('DOMContentLoaded', function () {
-                const formAdicionarEvento = document.getElementById('modalEvento');
+            async function carregarCategorias() {
+                try {
+                    const response = await fetch("http://localhost:8080/api/categorias");
+                    if (!response.ok) {
+                        throw new Error("Erro ao carregar categorias");
+                    }
 
-                // Quando o formulário for enviado
-                formAdicionarEvento.addEventListener('submit', function (event) {
-                    event.preventDefault(); // Impede o envio padrão do formulário
+                    const categorias = await response.json();
+                    const categoriaSelects = document.querySelectorAll(".form-select"); // Selecionando todos os elementos com a classe "form-select"
 
-                    // Coleta os valores dos campos do formulário
-                    const nome = document.getElementById('eventoNome').value;
-                    const local = document.getElementById('eventoLocal').value;
-                    const data = document.getElementById('eventoData').value;
-                    const descricao = document.getElementById('eventoDescricao').value;
-                    const imagem = document.getElementById('eventoImagem').value;
-                    const categoriaId = document.getElementById('categoriaselect').value;
+                    // Iterar sobre todos os elementos com a classe "form-select"
+                    categoriaSelects.forEach(categoriaSelect => {
+                        // Limpar opções existentes antes de adicionar novas
+                        categoriaSelect.innerHTML = "";
 
-                    // Crie um objeto com os dados do evento
-                    const eventoData = {
-                        nome: nome,
-                        localizacao: local,
-                        data: data,
-                        descricao: descricao,
-                        foto: imagem,
-                        categoriaId: categoriaId
-                    };
-
-                    // Faça uma requisição POST para o backend com os dados do evento
-                    fetch('http://localhost:8080/eventos/adicionar', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify(eventoData)
-                    })
-                        .then(response => {
-                            if (response.ok) {
-                                // Se a requisição for bem-sucedida, redirecione para a página de eventos ou faça outra ação necessária
-                                window.location.href = 'pagina-de-eventos.html';
-                            } else {
-                                // Se a requisição falhar, mostre uma mensagem de erro adequada ao usuário
-                                alert('Erro ao adicionar evento. Por favor, tente novamente.');
-                            }
-                        })
-                        .catch(error => {
-                            console.error('Erro ao adicionar evento:', error);
-                            alert('Erro interno do servidor. Por favor, tente novamente mais tarde.');
+                        // Adicionar novas opções
+                        categorias.forEach(categoria => {
+                            const option = document.createElement("option");
+                            option.value = categoria.id;
+                            option.text = categoria.nome;
+                            categoriaSelect.appendChild(option);
                         });
-                });
-            })
-
-
-
-            document.addEventListener('DOMContentLoaded', function () {
-                const categoriaSelect = document.getElementById('categoriaselect');
-
-                // Função para carregar as categorias do backend e preencher o seletor
-                function carregarCategorias() {
-                    fetch('http://localhost:8080/categorias/categorias')
-                        .then(response => response.json())
-                        .then(categorias => {
-                            // Limpar opções existentes no seletor
-                            categoriaSelect.innerHTML = '';
-
-                            // Adicionar uma opção padrão
-                            const defaultOption = document.createElement('option');
-                            defaultOption.value = '';
-                            defaultOption.textContent = 'Selecione uma categoria';
-                            categoriaSelect.appendChild(defaultOption);
-
-                            // Adicionar as opções de categoria ao seletor
-                            categorias.forEach(categoria => {
-                                const option = document.createElement('option');
-                                option.value = categoria.id;
-                                option.textContent = categoria.nome;
-                                categoriaSelect.appendChild(option);
-                            });
-                        })
-                        .catch(error => console.error('Erro ao carregar categorias:', error));
+                    });
+                } catch (error) {
+                    alert("Erro ao carregar categorias: " + error.message);
                 }
+            }
 
-                // Chame a função para carregar as categorias quando o modal for mostrado
-                const modalEvento = new bootstrap.Modal(document.getElementById('modalEvento'));
-                modalEvento.addEventListener('show.bs.modal', function () {
-                    carregarCategorias();
-                });
-            });
+            document.getElementById('modalEvento').addEventListener('show.bs.modal', carregarCategorias);
+            document.getElementById('modalEditarEvento').addEventListener('show.bs.modal', carregarCategorias);
+
+
+
+
+            async function editarEvento(id) {
+                try {
+                    const nome = document.getElementById("editNomeEvento").value;
+                    const dataEvento = document.getElementById("editDataEvento").value; // Renomeie para evitar conflito de nomes
+                    const localizacao = document.getElementById("editLocalEvento").value;
+                    const descricao = document.getElementById("editDescricaoEvento").value;
+                    const categoriaId = document.getElementById("editcategoria").value; // Supondo que você tenha um elemento com o ID "editcategoria" para selecionar a categoria
+
+                    const response = await fetch(`http://localhost:8080/eventos/editar/${id}`, {
+                        method: "PUT",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({
+                            nome,
+                            data: dataEvento, // Use o nome corrigido aqui
+                            localizacao,
+                            descricao,
+                            categoriaId
+                        }),
+                    });
+
+                    if (!response.ok) {
+                        throw new Error("Erro ao editar evento");
+                    }
+
+                    const responseData = await response.json(); // Renomeie para evitar conflito de nomes
+                    console.log("Evento editado com sucesso:", responseData);
+                    // Aqui você pode adicionar código para atualizar a interface do usuário conforme necessário
+                } catch (error) {
+                    console.error("Erro ao editar evento:", error);
+                    // Aqui você pode adicionar código para lidar com o erro
+                }
+            }
+
+
+
+            async function apagarEvento(id) {
+                try {
+                    const response = await fetch(`http://localhost:8080/eventos/deletar/${id}`, {
+                        method: 'DELETE'
+                    });
+
+                    if (response.ok) {
+                        console.log(`Evento com o ID ${id} foi apagado com sucesso.`);
+                    } else {
+                        console.error('Falha ao apagar o evento.');
+                    }
+                } catch (error) {
+                    console.error('Ocorreu um erro ao tentar apagar o evento:', error);
+                }
+            }
+
+            // Exemplo de uso:
+            const idEventoParaApagar = 123; // Substitua 123 pelo ID do evento que você deseja apagar
+            apagarEvento(idEventoParaApagar);
+
+
+
+
+
+
+
         </script>
 </body>
 

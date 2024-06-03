@@ -174,26 +174,32 @@
     });
 
     const login = async () => {
-        var dados = {
-            email: document.getElementById("email").value,
-            password: document.getElementById("password").value,
-        };
-        const response = await fetch("http://localhost:8080/auth/login", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(dados),
-        });
-        console.log(response.ok);
-        dados = await response.json();
-        if (!response.ok) {
-            alert("Erro ao fazer login");
-        } else {
-            alert("Login efetuado com sucesso");
-            console.log(dados);
+        const email = document.getElementById("email").value;
+        const password = document.getElementById("password").value;
 
-            // Guardar o token no local storage
+        // Validação de entrada
+        if (!email || !password) {
+            alert("Por favor, preencha todos os campos de login.");
+            return;
+        }
+
+        try {
+            const response = await fetch("http://localhost:8080/auth/login", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ email, password }), // Simplificação dos dados enviados
+            });
+
+            if (!response.ok) {
+                throw new Error("Erro ao fazer login.");
+            }
+
+            const dados = await response.json();
+            alert("Login efetuado com sucesso.");
+
+            // Guardar o token no armazenamento local de forma segura
             localStorage.setItem("token", dados.token);
 
             // Verificar se o usuário é administrador e redirecionar
@@ -202,32 +208,31 @@
             } else {
                 window.location.href = "/dashboard"; // Redireciona para a página normal do usuário
             }
+        } catch (error) {
+            console.error("Erro durante o login:", error);
+            alert("Erro durante o login. Por favor, tente novamente mais tarde.");
         }
     };
+    ;
 
     const getProtectedData = async () => {
-    const token = localStorage.getItem('token');
+        const token = localStorage.getItem('token');
 
-    const response = await fetch("http://localhost:8080/admin/some-protected-route", {
-        method: "GET",
-        headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${token}`
+        const response = await fetch("http://localhost:8080/admin", {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+            }
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            console.log(data);
+        } else {
+            console.error('Não está autorizado');
         }
-    });
-
-    if (response.ok) {
-        const data = await response.json();
-        console.log(data);
-    } else {
-        console.error('Não está autorizado');
-    }
-};
-
-
-
-
-
+    };
 
 
     document.addEventListener('DOMContentLoaded', function () {
@@ -245,7 +250,7 @@
                         <img src="${evento.Foto}" alt="${evento.nome}">
                         <h3>${evento.nome}</h3>
                         <p>${evento.descricao || 'Descrição não disponível'}</p>
-                        <button class="botao" id="mais" onclick="openModal()">Ver mais</button>
+                        <button class="botao" id="mais" onclick="openModal(${evento.id})">Ver mais</button>
                     </div>
                 `;
                     eventosContainer.innerHTML += cardEvento;
@@ -257,6 +262,38 @@
         xhr.send();
     });
 
+
+    function openModal(eventId) {
+        fetch(`http://localhost:8080/eventos/listar/${eventId}`)
+            .then(response => response.json())
+            .then(evento => {
+                // Formatar a data do evento
+                const dataFormatada = new Date(evento.data).toLocaleDateString('pt-BR', {
+                    day: '2-digit',
+                    month: '2-digit',
+                    year: 'numeric',
+                });
+
+                // Preencha os dados do modal com as informações do evento
+                document.getElementById('modalNome').textContent = evento.nome;
+                document.getElementById('modalData').textContent = `Data: ${dataFormatada}`;
+                document.getElementById('modalLocal').textContent = `Local: ${evento.localizacao}`;
+                document.getElementById('modalDescricao').textContent = `Descrição: ${evento.descricao}`;
+                document.getElementById('modalPreco').textContent = `Preço: ${evento.preco}`;
+
+                // Exiba o modal
+                document.getElementById('myModal').style.display = 'block';
+            })
+            .catch(error => {
+                console.error("Erro ao buscar os detalhes do evento:", error);
+            });
+    }
+
+
+    function closeModal() {
+        // Oculte o modal
+        document.getElementById('myModal').style.display = 'none';
+    }
 
 
 
