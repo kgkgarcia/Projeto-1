@@ -39,7 +39,7 @@ app.use('/eventos', eventosRoutes);
 
 // Rota Bilhetes
 const bilhetesRoutes = require('./routes/bilhetes');
-app.use('/eventos', bilhetesRoutes);
+app.use('/bilhetes', bilhetesRoutes);
 
 
 //categorias

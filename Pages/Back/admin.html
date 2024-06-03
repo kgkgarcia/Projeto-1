@@ -404,27 +404,6 @@
 
 
 
-            async function apagarEvento(id) {
-                try {
-                    const response = await fetch(`http://localhost:8080/eventos/deletar/${id}`, {
-                        method: 'DELETE'
-                    });
-
-                    if (response.ok) {
-                        console.log(`Evento com o ID ${id} foi apagado com sucesso.`);
-                    } else {
-                        console.error('Falha ao apagar o evento.');
-                    }
-                } catch (error) {
-                    console.error('Ocorreu um erro ao tentar apagar o evento:', error);
-                }
-            }
-
-            // Exemplo de uso:
-            const idEventoParaApagar = 123; // Substitua 123 pelo ID do evento que você deseja apagar
-            apagarEvento(idEventoParaApagar);
-
-
 
 
 

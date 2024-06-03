@@ -262,7 +262,6 @@
         xhr.send();
     });
 
-
     function openModal(eventId) {
         fetch(`http://localhost:8080/eventos/listar/${eventId}`)
             .then(response => response.json())
@@ -279,7 +278,16 @@
                 document.getElementById('modalData').textContent = `Data: ${dataFormatada}`;
                 document.getElementById('modalLocal').textContent = `Local: ${evento.localizacao}`;
                 document.getElementById('modalDescricao').textContent = `Descrição: ${evento.descricao}`;
-                document.getElementById('modalPreco').textContent = `Preço: ${evento.preco}`;
+
+                // Aqui você fará outra requisição para buscar os detalhes do bilhete associado ao evento
+                fetch(`http://localhost:8080/bilhetes/evento/${eventId}`)
+                    .then(response => response.json())
+                    .then(bilhete => {
+                        document.getElementById('modalPreco').textContent = `Preço: ${bilhete.preco} €`;
+                    })
+                    .catch(error => {
+                        console.error("Erro ao buscar os detalhes do bilhete:", error);
+                    });
 
                 // Exiba o modal
                 document.getElementById('myModal').style.display = 'block';
@@ -288,6 +296,7 @@
                 console.error("Erro ao buscar os detalhes do evento:", error);
             });
     }
+
 
 
     function closeModal() {

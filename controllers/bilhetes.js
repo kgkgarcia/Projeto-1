@@ -105,3 +105,27 @@ exports.listarbilheteID = async (req, res) => {
         return res.status(500).json({ msg: "Erro interno do servidor: " + error.message });
     }
 }
+
+exports.getDetalhesBilheteEvento = async (req, res) => {
+    try {
+        const { eventId } = req.params;
+        const bilhete = await prisma.bilhete.findFirst({
+            where: { eventoId: parseInt(eventId) },
+        });
+
+        if (!bilhete) {
+            return res.status(404).json({ msg: "Bilhete não encontrado para este evento" });
+        }
+
+        return res.status(200).json(bilhete);
+    } catch (error) {
+        return res.status(500).json({ msg: "Erro interno do servidor: " + error.message });
+    }
+}
+
+
+
+
+
+
+
