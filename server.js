@@ -37,14 +37,9 @@ const eventosRoutes = require('./routes/eventos');
 app.use('/eventos', eventosRoutes);
 
 
-// Rota Bilhetes
-const bilhetesRoutes = require('./routes/bilhetes');
-app.use('/bilhetes', bilhetesRoutes);
-
-
 //categorias
 const categoriasRoutes = require('./routes/categorias');
-app.use('/bilhetes', categoriasRoutes);
+app.use('/api', categoriasRoutes);
 
 // Porta
 const port = process.env.SERVER_PORT || 8080;

@@ -18,58 +18,37 @@ model Utilizador {
     isAdmin  Boolean    @default(false)
     password String
     numtel   String
-    // Se houver mais campos, adicione aqui
-    Carrinho Carrinho[]
+    compras  Compra[]
 }
 
-// Define o modelo de dados para os eventos
 model Evento {
-    id                Int             @id @default(autoincrement())
+    id                Int              @id @default(autoincrement())
     nome              String
     data              DateTime
     localizacao       String
-    Foto              String
+    foto              String
     descricao         String
-    Bilhete           Bilhete[]
-    // Relacionamento com categoria_eventos
-    categoria         CategoriaEvento @relation(fields: [categoriaEventoId], references: [id])
+    preco             Float
+    quantidade        Int
+    categoria         CategoriaEvento  @relation(fields: [categoriaEventoId], references: [id])
     categoriaEventoId Int
-    // Se houver mais campos, adicione aqui
+    compras           Compra[]
 }
 
-// Modelo de Bilhete
-model Bilhete {
-    id         Int      @id @default(autoincrement())
-    preco      Float
-    quantidade Int
-    eventoId   Int?
-    Evento     Evento?  @relation(fields: [eventoId], references: [id])
-    ItensCarrinho ItensCarrinho[]
-}
-
-// Modelo de Carrinho
-model Carrinho {
-    id           Int           @id @default(autoincrement())
-    utilizadorId Int
-    utilizador   Utilizador    @relation(fields: [utilizadorId], references: [id])
-    ItensCarrinho ItensCarrinho[]
-}
-
-// Modelo de ItensCarrinho (Tabela intermédia)
-model ItensCarrinho {
-    id           Int       @id @default(autoincrement())
-    carrinhoId   Int
-    bilheteId    Int
-    quantidade   Int
-    precoUnitario Float
-    carrinho     Carrinho  @relation(fields: [carrinhoId], references: [id])
-    bilhete      Bilhete   @relation(fields: [bilheteId], references: [id])
-}
-
-// Define o modelo de dados para categoria_eventos
 model CategoriaEvento {
-    id     Int      @id @default(autoincrement())
-    nome   String
-    // Se houver mais campos, adicione aqui
-    Evento Evento[]
+    id      Int       @id @default(autoincrement())
+    nome    String
+    eventos Evento[]
 }
+
+model Compra {
+    id           Int        @id @default(autoincrement())
+    utilizadorId Int
+    utilizador   Utilizador @relation(fields: [utilizadorId], references: [id])
+    eventoId     Int
+    evento       Evento     @relation(fields: [eventoId], references: [id])
+    dataCompra   DateTime   @default(now())
+    quantidade   Int
+    total        Float
+}
+

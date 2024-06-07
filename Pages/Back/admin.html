@@ -52,7 +52,8 @@
                                 <th scope="col">Nome</th>
                                 <th scope="col">Data</th>
                                 <th scope="col">Local</th>
-                                <th scope="col">Descrição</th>
+                                <th scope="col">Preço</th>
+                                <th scope="col">Qtd</th>
                                 <th scope="col">Ações</th>
                             </tr>
                         </thead>
@@ -78,13 +79,13 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="">Evento</label>
+                                    <label for="evento">Evento</label>
                                     <input type="text" class="form-control" id="evento">
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="">Local</label>
+                                    <label for="local">Local</label>
                                     <input type="text" class="form-control" id="local">
                                 </div>
                             </div>
@@ -92,19 +93,19 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="">Data</label>
+                                    <label for="data">Data</label>
                                     <input id="data" type="date" class="form-control">
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="">Descrição</label>
+                                    <label for="descricao">Descrição</label>
                                     <input type="text" class="form-control" id="descricao">
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="">Link da imagem</label>
+                                    <label for="foto">Link da imagem</label>
                                     <input type="text" class="form-control" id="foto">
                                 </div>
                             </div>
@@ -116,6 +117,18 @@
                                     </select>
                                 </div>
                             </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="preco">Preço</label>
+                                    <input type="number" class="form-control" id="preco" min="0">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="quantidade">Quantidade</label>
+                                    <input type="number" class="form-control" id="quantidade" min="0">
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -125,6 +138,7 @@
                 </div>
             </div>
         </div>
+
 
         <!-- Modal de Edição -->
         <div class="modal fade" id="modalEditarEvento" tabindex="-1" role="dialog"
@@ -165,10 +179,28 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
+                                    <label for="foto">Link da imagem</label>
+                                    <input type="text" class="form-control" id="editfoto">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
                                     <label for="editcategoria">Categoria</label>
-                                    <select class="form-select" id="categoriaselect" required>
+                                    <select class="form-select" id="editCategoriaEvento" required>
                                         <!-- Opções de eventos serão populadas dinamicamente pelo JavaScript -->
                                     </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="editPrecoEvento">Preço</label>
+                                    <input type="number" class="form-control" id="editPrecoEvento" min="0">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="editQuantidadeEvento">Quantidade</label>
+                                    <input type="number" class="form-control" id="editQuantidadeEvento" min="0">
                                 </div>
                             </div>
                         </div>
@@ -177,74 +209,11 @@
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Remover</button>
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
                         <button type="button" class="btn btn-primary" onclick="editarEvento(idDoEvento)">Salvar</button>
+
                     </div>
                 </div>
             </div>
         </div>
-
-        <!--Tabela dos Bilhetes-->
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12 d-flex justify-content-end">
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                        data-bs-target="#modalBilhete">Adicionar Bilhete</button>
-                </div>
-            </div>
-            <div class="row" style="margin-top: 20px;">
-                <div class="col-md-12">
-                    <h2>Bilhetes</h2>
-                    <table class="table table-hover">
-                        <thead>
-                            <tr>
-                                <th scope="col">ID</th>
-                                <th scope="col">Nome do Evento</th>
-                                <th scope="col">Preço</th>
-                                <th scope="col">Ações</th>
-                            </tr>
-                        </thead>
-                        <tbody id="bilhetesTableBody">
-                            <!-- As linhas da tabela serão populadas dinamicamente pelo JavaScript -->
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-
-        <!-- Modal de Adicionar Bilhete -->
-        <div class="modal fade" id="modalBilhete" tabindex="-1" aria-labelledby="modalBilheteLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="modalBilheteLabel">Adicionar Bilhete</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <form id="formAdicionarBilhete">
-                            <div class="mb-3">
-                                <label for="eventoSelect" class="form-label">Evento</label>
-                                <select class="form-select" id="eventoSelect" required>
-                                    <!-- Opções de eventos serão populadas dinamicamente pelo JavaScript -->
-                                </select>
-                            </div>
-                            <div class="mb-3">
-                                <label for="precoInput" class="form-label">Preço</label>
-                                <input type="number" class="form-control" id="precoInput" min="0" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="precoInput" class="form-label">Quantidade</label>
-                                <input type="number" class="form-control" id="qtd" min="1" required>
-                            </div>
-                        </form>
-                    </div>
-
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-                        <button type="submit" class="btn btn-primary">Adicionar</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
 
 
         <!-- Botão para sair da página -->
@@ -258,28 +227,96 @@
             document.addEventListener('DOMContentLoaded', function () {
                 const eventosTableBody = document.getElementById('eventosTableBody');
 
+                // Função para deletar um evento
+                async function apagarEvento(eventoId) {
+                    try {
+                        // Confirmar a exclusão
+                        const confirmarExclusao = confirm("Tem certeza de que deseja excluir este evento?");
+                        if (!confirmarExclusao) {
+                            return; // Se o usuário cancelar, não faça nada
+                        }
+
+                        const response = await fetch(`http://localhost:8080/eventos/deletar/${eventoId}`, {
+                            method: 'DELETE',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                        });
+
+                        const data = await response.json();
+
+                        if (response.ok) {
+                            console.log(data.msg); // Mensagem de sucesso
+                            // Remove a linha correspondente do DOM
+                            const row = document.getElementById(`evento-${eventoId}`);
+                            if (row) {
+                                row.parentNode.removeChild(row);
+                            }
+                            // Alerta após a exclusão
+                            alert("Evento excluído com sucesso!");
+                        } else {
+                            console.error(data.msg); // Mensagem de erro
+                        }
+                    } catch (error) {
+                        console.error('Erro:', error); // Erro de rede ou outro erro
+                    }
+                }
+
+                function abrirModalEditar(eventoId) {
+                    // Aqui você pode adicionar a lógica para abrir o modal de edição com os detalhes do evento
+                    // Por exemplo, você pode fazer outra requisição AJAX para obter os detalhes do evento e preencher o formulário de edição
+
+                    // Aqui está um exemplo de como você pode preencher os campos do modal com os detalhes do evento
+                    fetch(`http://localhost:8080/eventos/listar/${eventoId}`)
+                        .then(response => response.json())
+                        .then(evento => {
+                            document.getElementById('editNomeEvento').value = evento.nome;
+                            document.getElementById('editLocalEvento').value = evento.localizacao;
+                            document.getElementById('editDataEvento').value = new Date(evento.data).toISOString().split('T')[0];
+                            document.getElementById('editDescricaoEvento').value = evento.descricao;
+                            document.getElementById('editFoto').value = evento.foto;
+                            document.getElementById('editPrecoEvento').value = evento.preco;
+                            document.getElementById('editQuantidadeEvento').value = evento.quantidade;
+                            // Preencha os outros campos conforme necessário
+                        })
+                        .catch(error => console.error('Erro ao carregar detalhes do evento:', error));
+
+                    // Abre o modal
+                    const modal = new bootstrap.Modal(document.getElementById('modalEditarEvento'));
+                    modal.show();
+                }
+
                 // Fazendo uma requisição AJAX para carregar os eventos do backend
                 fetch('http://localhost:8080/eventos/listar')
                     .then(response => response.json())
                     .then(eventos => {
                         eventos.forEach(evento => {
                             const row = document.createElement('tr');
+                            row.setAttribute('id', `evento-${evento.id}`);
                             row.innerHTML = `
                     <td>${evento.id}</td>
                     <td>${evento.nome}</td>
                     <td>${new Date(evento.data).toLocaleDateString()}</td>
                     <td>${evento.localizacao}</td>
-                    <td>${evento.descricao}</td>
+                    <td>${evento.preco}</td>
+                    <td>${evento.quantidade}</td>
                     <td>
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                        data-bs-target="#modalEditarEvento" onclick="openEditModal()" id="editar">Editar</button>
-                        <button type="button" class="btn btn-danger" onclick="apagarEvento(id)">Excluir</button>
+                        <button type="button" class="btn btn-primary btn-editar" onclick="abrirModalEditar(${evento.id})" data-bs-toggle="modal" data-bs-target="#modalEditarEvento">Editar</button>
+                        <button type="button" class="btn btn-danger btn-apagar" data-evento-id="${evento.id}">Excluir</button>
                     </td>
                 `;
                             eventosTableBody.appendChild(row);
                         });
                     })
                     .catch(error => console.error('Erro ao carregar eventos:', error));
+
+                // Adicionando ouvinte de evento para os botões "Excluir"
+                eventosTableBody.addEventListener('click', function (event) {
+                    if (event.target.classList.contains('btn-apagar')) {
+                        const eventoId = event.target.getAttribute('data-evento-id');
+                        apagarEvento(eventoId);
+                    }
+                });
             });
 
 
@@ -297,17 +334,19 @@
                 var descricao = document.getElementById("descricao").value;
                 var foto = document.getElementById("foto").value;
                 var categoriaEventoId = document.getElementById("categoriaselect").value;
+                var preco = document.getElementById("preco").value;
+                var quantidade = document.getElementById("quantidade").value;
 
                 var dados = {
                     nome: nome,
-                    data: data,
                     localizacao: localizacao,
+                    data: data,
                     descricao: descricao,
                     foto: foto,
                     categoriaEventoId: parseInt(categoriaEventoId, 10),
+                    preco: parseFloat(preco),
+                    quantidade: parseInt(quantidade, 10)
                 };
-
-                console.log(JSON.stringify(dados, null, 2))
 
                 try {
                     const response = await fetch("http://localhost:8080/eventos/adicionar", {
@@ -315,7 +354,7 @@
                         headers: {
                             "Content-Type": "application/json",
                         },
-                        body: JSON.stringify(dados, null, 2),
+                        body: JSON.stringify(dados),
                     });
 
                     if (!response.ok) {
@@ -330,6 +369,7 @@
                     alert("Erro ao criar evento: " + error.message);
                 }
             }
+
 
 
 
@@ -367,42 +407,7 @@
 
 
 
-            async function editarEvento(id) {
-                try {
-                    const nome = document.getElementById("editNomeEvento").value;
-                    const dataEvento = document.getElementById("editDataEvento").value; // Renomeie para evitar conflito de nomes
-                    const localizacao = document.getElementById("editLocalEvento").value;
-                    const descricao = document.getElementById("editDescricaoEvento").value;
-                    const categoriaId = document.getElementById("editcategoria").value; // Supondo que você tenha um elemento com o ID "editcategoria" para selecionar a categoria
 
-                    const response = await fetch(`http://localhost:8080/eventos/editar/${id}`, {
-                        method: "PUT",
-                        headers: {
-                            "Content-Type": "application/json",
-                        },
-                        body: JSON.stringify({
-                            nome,
-                            data: dataEvento, // Use o nome corrigido aqui
-                            localizacao,
-                            descricao,
-                            categoriaId
-                        }),
-                    });
-
-                    if (!response.ok) {
-                        throw new Error("Erro ao editar evento");
-                    }
-
-                    const responseData = await response.json(); // Renomeie para evitar conflito de nomes
-                    console.log("Evento editado com sucesso:", responseData);
-                    // Aqui você pode adicionar código para atualizar a interface do usuário conforme necessário
-                } catch (error) {
-                    console.error("Erro ao editar evento:", error);
-                    // Aqui você pode adicionar código para lidar com o erro
-                }
-            }
-
-            
 
         </script>
 </body>

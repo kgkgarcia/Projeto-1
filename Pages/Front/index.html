@@ -25,7 +25,7 @@
                         <li><a href="#"><img src="../../Imagens/icons8-usuário-de-gênero-neutro-32.png" alt=""
                                     id="perfil"></a>
                         </li>
-                        <li><a href="#"><img src="../../Imagens/icons8-carrinho-30.png" alt="" id="carrinho"></a></li>
+
                     </ul>
                 </div>
             </div>
@@ -86,7 +86,7 @@
             <p id="modalLocal"></p>
             <p id="modalDescricao"></p>
             <p id="modalPreco"></p>
-            <button class="botao" id="comprarBilhete" onclick="closeModal()">Adicionar ao Carrinho</button>
+            <button class="botao" id="comprarBilhete" onclick="closeModal()">Comprar</button>
         </div>
     </div>
 
@@ -247,7 +247,7 @@
                 eventos.forEach(evento => {
                     const cardEvento = `
                     <div class="card-evento">
-                        <img src="${evento.Foto}" alt="${evento.nome}">
+                        <img src="${evento.foto}" alt="${evento.nome}">
                         <h3>${evento.nome}</h3>
                         <p>${evento.descricao || 'Descrição não disponível'}</p>
                         <button class="botao" id="mais" onclick="openModal(${evento.id})">Ver mais</button>
@@ -266,8 +266,7 @@
         fetch(`http://localhost:8080/eventos/listar/${eventId}`)
             .then(response => response.json())
             .then(evento => {
-                // Formatar a data do evento
-                const dataFormatada = new Date(evento.data).toLocaleDateString('pt-BR', {
+                const dataFormatada = new Date(evento.data).toLocaleDateString('pt-PT', {
                     day: '2-digit',
                     month: '2-digit',
                     year: 'numeric',
@@ -278,16 +277,7 @@
                 document.getElementById('modalData').textContent = `Data: ${dataFormatada}`;
                 document.getElementById('modalLocal').textContent = `Local: ${evento.localizacao}`;
                 document.getElementById('modalDescricao').textContent = `Descrição: ${evento.descricao}`;
-
-                // Aqui você fará outra requisição para buscar os detalhes do bilhete associado ao evento
-                fetch(`http://localhost:8080/bilhetes/evento/${eventId}`)
-                    .then(response => response.json())
-                    .then(bilhete => {
-                        document.getElementById('modalPreco').textContent = `Preço: ${bilhete.preco} €`;
-                    })
-                    .catch(error => {
-                        console.error("Erro ao buscar os detalhes do bilhete:", error);
-                    });
+                document.getElementById('modalPreco').textContent = `Preço: ${evento.preco} €`;
 
                 // Exiba o modal
                 document.getElementById('myModal').style.display = 'block';
@@ -296,6 +286,8 @@
                 console.error("Erro ao buscar os detalhes do evento:", error);
             });
     }
+
+
 
 
 
