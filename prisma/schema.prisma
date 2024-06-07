@@ -55,7 +55,7 @@ model Carrinho {
     ItensCarrinho ItensCarrinho[]
 }
 
-// Modelo de ItensCarrinho (Tabela intermediária)
+// Modelo de ItensCarrinho (Tabela intermédia)
 model ItensCarrinho {
     id           Int       @id @default(autoincrement())
     carrinhoId   Int
