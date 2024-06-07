@@ -37,23 +37,33 @@ model Evento {
     // Se houver mais campos, adicione aqui
 }
 
-// Define o modelo de dados para os bilhetes
+// Modelo de Bilhete
 model Bilhete {
-    id         Int     @id @default(autoincrement())
+    id         Int      @id @default(autoincrement())
     preco      Float
     quantidade Int
-    // Se houver mais campos, adicione aqui
-    Evento     Evento? @relation(fields: [eventoId], references: [id])
     eventoId   Int?
+    Evento     Evento?  @relation(fields: [eventoId], references: [id])
+    ItensCarrinho ItensCarrinho[]
 }
 
-// Define o modelo de dados para os carrinhos
+// Modelo de Carrinho
 model Carrinho {
-    id           Int        @id @default(autoincrement())
-    // Relacionamento com utilizadores
-    utilizador   Utilizador @relation(fields: [utilizadorId], references: [id])
+    id           Int           @id @default(autoincrement())
     utilizadorId Int
-    // Se houver mais campos, adicione aqui
+    utilizador   Utilizador    @relation(fields: [utilizadorId], references: [id])
+    ItensCarrinho ItensCarrinho[]
+}
+
+// Modelo de ItensCarrinho (Tabela intermediária)
+model ItensCarrinho {
+    id           Int       @id @default(autoincrement())
+    carrinhoId   Int
+    bilheteId    Int
+    quantidade   Int
+    precoUnitario Float
+    carrinho     Carrinho  @relation(fields: [carrinhoId], references: [id])
+    bilhete      Bilhete   @relation(fields: [bilheteId], references: [id])
 }
 
 // Define o modelo de dados para categoria_eventos
