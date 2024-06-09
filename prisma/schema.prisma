@@ -1,7 +1,5 @@
 // schema.prisma
 
-// Define o modelo de dados para os utilizadores
-
 generator client {
     provider = "prisma-client-js"
 }
@@ -12,13 +10,14 @@ datasource db {
 }
 
 model Utilizador {
-    id       Int        @id @default(autoincrement())
-    nome     String
-    email    String     @unique
-    isAdmin  Boolean    @default(false)
-    password String
-    numtel   String
-    compras  Compra[]
+    id        Int        @id @default(autoincrement())
+    nome      String
+    email     String     @unique
+    isAdmin   Boolean    @default(false)
+    password  String
+    numtel    String
+    compras   Compra[]
+    carrinhos Carrinho[]
 }
 
 model Evento {
@@ -32,7 +31,7 @@ model Evento {
     quantidade        Int
     categoria         CategoriaEvento  @relation(fields: [categoriaEventoId], references: [id])
     categoriaEventoId Int
-    compras           Compra[]
+    itensCarrinho     ItensCarrinho[]
 }
 
 model CategoriaEvento {
@@ -42,13 +41,25 @@ model CategoriaEvento {
 }
 
 model Compra {
-    id           Int        @id @default(autoincrement())
+    id           Int         @id @default(autoincrement())
     utilizadorId Int
-    utilizador   Utilizador @relation(fields: [utilizadorId], references: [id])
-    eventoId     Int
-    evento       Evento     @relation(fields: [eventoId], references: [id])
-    dataCompra   DateTime   @default(now())
-    quantidade   Int
+    utilizador   Utilizador  @relation(fields: [utilizadorId], references: [id])
+    dataCompra   DateTime    @default(now())
     total        Float
 }
 
+model Carrinho {
+    id           Int             @id @default(autoincrement())
+    utilizadorId Int
+    utilizador   Utilizador      @relation(fields: [utilizadorId], references: [id])
+    itens        ItensCarrinho[]
+}
+
+model ItensCarrinho {
+    id         Int      @id @default(autoincrement())
+    carrinhoId Int
+    carrinho   Carrinho @relation(fields: [carrinhoId], references: [id])
+    eventoId   Int
+    evento     Evento   @relation(fields: [eventoId], references: [id])
+    quantidade Int
+}
