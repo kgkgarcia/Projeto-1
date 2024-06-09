@@ -298,7 +298,7 @@
                     <td>${evento.nome}</td>
                     <td>${new Date(evento.data).toLocaleDateString()}</td>
                     <td>${evento.localizacao}</td>
-                    <td>${evento.preco}</td>
+                    <td>${evento.preco} €</td>
                     <td>${evento.quantidade}</td>
                     <td>
                         <button type="button" class="btn btn-primary btn-editar" onclick="abrirModalEditar(${evento.id})" data-bs-toggle="modal" data-bs-target="#modalEditarEvento">Editar</button>
@@ -406,6 +406,36 @@
 
 
 
+
+           /* window.onload = async () => {
+                const token = localStorage.getItem("token");
+                if (!token) {
+                    alert("Você não está autenticado.");
+                    window.location.href = "http://localhost:8080"; // ou qualquer que seja a sua página de login
+                    return;
+                }
+
+                try {
+                    const response = await fetch("http://localhost:8080/auth/letoken", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "Authorization": `Bearer ${token}`
+                        },
+                        body: JSON.stringify({ token: token }) // Este corpo pode não ser necessário
+                    });
+                    if (!response.ok) {
+                        throw new Error("Token inválido");
+                    }
+                    const data = await response.json();
+                    console.log("Token válido:", data);
+                    // Aqui você pode continuar carregando a página de admin
+                } catch (error) {
+                    console.error(error);
+                    alert("Você não está autenticado.");
+                    window.location.href = "http://localhost:8080";
+                }
+            };*/
 
 
 

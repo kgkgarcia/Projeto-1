@@ -30,7 +30,7 @@ exports.editarevento = async (req, res) => {
     try {
         const { id } = req.params;
         const { nome, data, localizacao, foto, descricao, categoriaEventoId, preco, quantidade } = req.body;
-        
+
         const evento = await prisma.evento.update({
             where: { id: parseInt(id) },
             data: {
@@ -44,7 +44,7 @@ exports.editarevento = async (req, res) => {
                 quantidade
             }
         });
-        
+
         res.status(200).json({ evento });
     } catch (error) {
         console.error("Erro ao editar o evento:", error);
@@ -106,27 +106,27 @@ exports.listareventoID = async (req, res) => {
     }
 }
 
-exports.listareventoCAT = async (req, res) => {
+exports.listarPorCategoria = async (req, res) => {
     try {
-        const { categoriaEventoId } = req.params;
-        // Verifica se o evento existe
-        const eventoExistente = await prisma.evento.findUnique({
-            where: { categoriaEventoId: parseInt(categoriaEventoId) },
+        const { categoria } = req.params;
+
+        // Busca os eventos pela categoria
+        const eventos = await prisma.evento.findMany({
+            where: {
+                categoriaEventoId: parseInt(categoria), // Alteração aqui
+            },
         });
 
-        if (!eventoExistente) {
-            return res.status(404).json({ msg: "Evento não encontrado" });
+        if (!eventos || eventos.length === 0) {
+            return res.status(404).json({ msg: "Nenhum evento encontrado para esta categoria" });
         }
-        // Lista aquele o evento 
-        const evento = await prisma.evento.findUnique({
-            where: { categoriaEventoId: parseInt(categoriaEventoId) },
-        });
 
-        return res.status(200).json(evento);
+        return res.status(200).json(eventos);
     } catch (error) {
         return res.status(500).json({ msg: "Erro interno do servidor: " + error.message });
     }
-}
+};
+
 
 exports.listareventoNOME = async (req, res) => {
     try {

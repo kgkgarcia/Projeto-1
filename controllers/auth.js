@@ -74,21 +74,12 @@ exports.getUserInfo = async (req, res) => {
 
 
 //ver o token
-exports.readToken= async (req, res) =>{
-    try{
-        const { token } = req.body;
-        authenticateUtil.certifyAccessToken(token)
-         .then(decode => {
-            res.status(200).json(decode);
-// Aqui pode ler os dados decodificados do token
-            // Faça o que quiser com os dados decodificados, como salvá-los em variáveis ou usar em outras operações
-          })
-          .catch(err => {
-            res.status(401).json(err);
-            //console.error('Erro ao verificar o token:', err);
-          });
-    }catch(error){
-        res.status(401).json({ msg: error.message })
+exports.readToken = async (req, res) => {
+    const { token } = req.body;
+    try {
+        const result = await authenticateUtil.certifyAccessToken(token);
+        res.status(200).json(result);
+    } catch (err) {
+        res.status(401).json({ message: 'Token inválido ou expirado', error: err.message });
     }
-}
-
+};

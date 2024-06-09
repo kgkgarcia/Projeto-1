@@ -8,6 +8,24 @@
     <link rel="icon" href="../../Imagens/logo.jpg">
     <script src="https://kit.fontawesome.com/a563638dec.js" crossorigin="anonymous"></script>
     <title>MyTicket</title>
+    <style>
+        .logo {
+            font-size: 36px;
+            font-weight: bold;
+            letter-spacing: 10px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .logo a {
+            color: transparent;
+            text-decoration: none;
+            background-image: linear-gradient(to right, #00CED1, #FFA500, #FF0000, #FFFF00);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    </style>
 </head>
 
 <body>
@@ -17,8 +35,11 @@
             <div class="lista">
                 <div>
                     <ul class="icon_menu">
-                        <li><a href="#"><img src="../../Imagens/icons8-cardápio-30.png" alt="" id="navegacao"></a></li>
+                        <li><img src="../../Imagens/icons8-cardápio-30.png" alt="" id="navegacao"></li>
                     </ul>
+                </div>
+                <div class="logo">
+                    <li><a href="http://localhost:8080" id="myticket" >MyTicket</a></li>
                 </div>
                 <div>
                     <ul class="nav_menu">
@@ -61,18 +82,18 @@
             <li>
                 <h2>CATEGORIAS</h2>
             </li>
-            <li><a href="#">Desporto</a></li>
-            <li><a href="#">Cultura</a></li>
-            <li><a href="#">Música</a></li>
-            <li><a href="#">Arte</a></li>
-            <li><a href="#">Educação</a></li>
-            <li><a href="#">Viagens</a></li>
-            <li><a href="#">Tecnologia</a></li>
+            <li><a href="#" data-categoria-id="1">Desporto</a></li>
+            <li><a href="#" data-categoria-id="2">Cultura</a></li>
+            <li><a href="#" data-categoria-id="3">Música</a></li>
+            <li><a href="#" data-categoria-id="4">Arte</a></li>
+            <li><a href="#" data-categoria-id="5">Educação</a></li>
+            <li><a href="#" data-categoria-id="6">Viagens</a></li>
+            <li><a href="#" data-categoria-id="7">Tecnologia</a></li>
         </ul>
     </div>
 
 
-    <h3 class="titulo">Próximos Eventos</h3>
+    <h3 class="titulo" id="tituloEventos">Próximos Eventos</h3>
     <section class="eventos" id="eventosContainer">
         <!-- Conteúdo da seção de eventos será inserido dinamicamente -->
     </section>
@@ -174,65 +195,68 @@
     });
 
     const login = async () => {
-        const email = document.getElementById("email").value;
-        const password = document.getElementById("password").value;
+        var dados = {
+            email: document.getElementById("email").value,
+            password: document.getElementById("password").value,
+        };
+        console.log("Dados da solicitação de login:", dados); // Exibe os dados da solicitação no console
 
-        // Validação de entrada
-        if (!email || !password) {
-            alert("Por favor, preencha todos os campos de login.");
-            return;
-        }
-
-        try {
-            const response = await fetch("http://localhost:8080/auth/login", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ email, password }), // Simplificação dos dados enviados
-            });
-
-            if (!response.ok) {
-                throw new Error("Erro ao fazer login.");
-            }
-
-            const dados = await response.json();
-            alert("Login efetuado com sucesso.");
-
-            // Guardar o token no armazenamento local de forma segura
-            localStorage.setItem("token", dados.token);
-
-            // Verificar se o usuário é administrador e redirecionar
-            if (dados.isAdmin) {
-                window.location.href = "/admin"; // Redireciona para a página de admin
-            } else {
-                window.location.href = "/dashboard"; // Redireciona para a página normal do usuário
-            }
-        } catch (error) {
-            console.error("Erro durante o login:", error);
-            alert("Erro durante o login. Por favor, tente novamente mais tarde.");
-        }
-    };
-    ;
-
-    const getProtectedData = async () => {
-        const token = localStorage.getItem('token');
-
-        const response = await fetch("http://localhost:8080/admin", {
-            method: "GET",
+        const response = await fetch("http://localhost:8080/auth/login", {
+            method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": `Bearer ${token}`
-            }
+            },
+            body: JSON.stringify(dados),
         });
 
-        if (response.ok) {
-            const data = await response.json();
-            console.log(data);
+        console.log(response.ok);
+        dados = await response.json();
+        if (!response.ok) {
+            alert("Erro ao fazer login");
         } else {
-            console.error('Não está autorizado');
+            alert("Login efetuado com sucesso");
+            console.log("Token recebido:", dados.token); // Exibe o token no console
+            // Guardar o token no local storage
+            localStorage.setItem("token", dados.token);
+
+            // Verificar se o usuário é admin
+            const isAdmin = dados.isAdmin;
+            if (isAdmin) {
+                window.location.href = "http://localhost:8080/admin";
+            } else {
+                window.location.href = "http://localhost:8080";
+            }
         }
     };
+
+
+
+    const leTokenSFF = async () => {
+        var dados = {
+            token: localStorage.getItem("token"),
+        };
+        console.log(JSON.stringify(dados));
+        const response = await fetch("http://localhost:8080/auth/letoken", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(dados),
+        })
+        console.log(response);
+        dados = await response.json()
+        console.log(dados);
+        if (!response.ok) {
+            alert("Erro ao fazer login");
+        }
+        else {
+            alert("token lido com sucesso");
+            console.log(dados);
+        }
+    };
+
+
+
 
 
     document.addEventListener('DOMContentLoaded', function () {
@@ -295,6 +319,49 @@
         // Oculte o modal
         document.getElementById('myModal').style.display = 'none';
     }
+
+
+
+
+    // Função para carregar os eventos por categoria
+    function carregarEventosPorCategoria(categoriaId, categoriaNome) {
+        document.getElementById('tituloEventos').textContent = categoriaNome;
+        const eventosContainer = document.getElementById('eventosContainer');
+        eventosContainer.innerHTML = ''; // Limpa os eventos anteriores
+
+        // Faz uma requisição AJAX para carregar os eventos por categoria
+        const xhr = new XMLHttpRequest();
+        xhr.open('GET', `http://localhost:8080/eventos/listarcat/${categoriaId}`, true);
+        xhr.onload = function () {
+            if (xhr.status === 200) {
+                const eventos = JSON.parse(xhr.responseText);
+                eventos.forEach(evento => {
+                    const cardEvento = `
+                            <div class="card-evento">
+                                <img src="${evento.foto}" alt="${evento.nome}">
+                                <h3>${evento.nome}</h3>
+                                <p>${evento.descricao || 'Descrição não disponível'}</p>
+                                <button class="botao" id="mais" onclick="openModal(${evento.id})">Ver mais</button>
+                            </div>
+                        `;
+                    eventosContainer.innerHTML += cardEvento;
+                });
+            } else {
+                console.error('Falha ao carregar os eventos por categoria.');
+            }
+        };
+        xhr.send();
+    }
+
+    // Event listener para carregar os eventos por categoria quando um link de categoria é clicado
+    document.querySelectorAll('.nav-menu a').forEach(link => {
+        link.addEventListener('click', function (event) {
+            event.preventDefault(); // Evita o comportamento padrão de navegação
+            const categoriaId = link.getAttribute('data-categoria-id');
+            const categoriaNome = link.textContent;
+            carregarEventosPorCategoria(categoriaId, categoriaNome);
+        });
+    });
 
 
 
