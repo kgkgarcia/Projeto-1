@@ -30,7 +30,7 @@ app.use('/auth', authRoutes);
 
 // Rota de Admin (Protegida por Middleware)
 const adminRoutes = require('./routes/privado');
-app.use('/admin', adminMiddleware, adminRoutes);
+app.use('/admin', adminRoutes);
 
 // Rota Eventos
 const eventosRoutes = require('./routes/eventos');

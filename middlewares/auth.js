@@ -3,8 +3,10 @@ const authenticateUtil = require('../utils/authenticate.js');
 module.exports = async (req, res, next) => {
     const accessToken = req.headers['authorization'];
     
+    console.log(req.headers);
+    
     if (!accessToken) {
-        return res.status(401).send("Unauthorized");
+        return res.status(401).send("Unauthorizwweddd");
     }
 
     try {
