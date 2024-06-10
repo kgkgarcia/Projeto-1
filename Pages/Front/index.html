@@ -26,64 +26,92 @@
             -webkit-text-fill-color: transparent;
         }
 
-/* Estilo geral do modal */
-#user-info {
-    display: none; /* Inicialmente escondido */
-    position: fixed; /* Fixa a posição do modal */
-    z-index: 1000; /* Garantir que fique acima de outros elementos */
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto; /* Habilita rolagem se necessário */
-    background-color: rgba(0,0,0,0.5); /* Fundo preto com opacidade */
-}
+        /* Estilo geral do modal */
+        #user-info {
+            display: none;
+            /* Inicialmente escondido */
+            position: fixed;
+            /* Fixa a posição do modal */
+            z-index: 1000;
+            /* Garantir que fique acima de outros elementos */
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            /* Habilita rolagem se necessário */
+            background-color: rgba(0, 0, 0, 0.5);
+            /* Fundo preto com opacidade */
+        }
 
-/* Estilo da caixa do modal */
-.user-info {
-    background-color: #fff; /* Fundo branco */
-    margin: 10% auto; /* Espaço ao redor e centraliza horizontalmente */
-    padding: 20px; /* Espaçamento interno */
-    border: 1px solid #888; /* Borda cinza */
-    width: 80%; /* Largura da caixa */
-    max-width: 400px; /* Largura máxima */
-    border-radius: 10px; /* Bordas arredondadas */
-    box-shadow: 0 5px 15px rgba(0,0,0,0.3); /* Sombra */
-    text-align: center; /* Centraliza texto */
-}
+        /* Estilo da caixa do modal */
+        .user-info {
+            background-color: #fff;
+            /* Fundo branco */
+            margin: 10% auto;
+            /* Espaço ao redor e centraliza horizontalmente */
+            padding: 20px;
+            /* Espaçamento interno */
+            border: 1px solid #888;
+            /* Borda cinza */
+            width: 80%;
+            /* Largura da caixa */
+            max-width: 400px;
+            /* Largura máxima */
+            border-radius: 10px;
+            /* Bordas arredondadas */
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            /* Sombra */
+            text-align: center;
+            /* Centraliza texto */
+        }
 
-/* Estilo do botão de fechar */
-.close-button {
-    color: #aaa; /* Cor do texto */
-    float: right; /* Alinha à direita */
-    font-size: 28px; /* Tamanho do texto */
-    font-weight: bold; /* Texto em negrito */
-    cursor: pointer; /* Cursor de mãozinha */
-}
+        /* Estilo do botão de fechar */
+        .close-button {
+            color: #aaa;
+            /* Cor do texto */
+            float: right;
+            /* Alinha à direita */
+            font-size: 28px;
+            /* Tamanho do texto */
+            font-weight: bold;
+            /* Texto em negrito */
+            cursor: pointer;
+            /* Cursor de mãozinha */
+        }
 
-.close-button:hover,
-.close-button:focus {
-    color: #000; /* Muda a cor ao passar o mouse */
-    text-decoration: none; /* Remove sublinhado */
-}
+        .close-button:hover,
+        .close-button:focus {
+            color: #000;
+            /* Muda a cor ao passar o mouse */
+            text-decoration: none;
+            /* Remove sublinhado */
+        }
 
-/* Estilo do botão de logout */
-#logaut {
-    background-color: #4CAF50; /* Cor de fundo verde */
-    color: white; /* Cor do texto branca */
-    padding: 10px 20px; /* Espaçamento interno */
-    margin-top: 20px; /* Margem superior */
-    border: none; /* Sem borda */
-    border-radius: 5px; /* Bordas arredondadas */
-    cursor: pointer; /* Cursor de mãozinha */
-    font-size: 16px; /* Tamanho do texto */
-}
+        /* Estilo do botão de logout */
+        #logaut {
+            background-color: #4CAF50;
+            /* Cor de fundo verde */
+            color: white;
+            /* Cor do texto branca */
+            padding: 10px 20px;
+            /* Espaçamento interno */
+            margin-top: 20px;
+            /* Margem superior */
+            border: none;
+            /* Sem borda */
+            border-radius: 5px;
+            /* Bordas arredondadas */
+            cursor: pointer;
+            /* Cursor de mãozinha */
+            font-size: 16px;
+            /* Tamanho do texto */
+        }
 
-#logaut:hover {
-    background-color: #45a049; /* Muda a cor ao passar o mouse */
-}
-
-
+        #logaut:hover {
+            background-color: #45a049;
+            /* Muda a cor ao passar o mouse */
+        }
     </style>
 </head>
 
@@ -98,7 +126,7 @@
                     </ul>
                 </div>
                 <div class="logo">
-                    <li><a href="http://localhost:8080" id="myticket" >MyTicket</a></li>
+                    <li><a href="http://localhost:8080" id="myticket">MyTicket</a></li>
                 </div>
                 <div>
                     <ul class="nav_menu">
@@ -106,7 +134,8 @@
                                     id="perfil"></a>
                         </li>
 
-                        <li id="carinho"><a href="#"><img src="../../Imagens/icons8-carrinho-30.png" alt="" id="carrinho"></a></li>
+                        <li id="carinho"><a href="#"><img src="../../Imagens/icons8-carrinho-30.png" alt=""
+                                    id="carrinho"></a></li>
 
                     </ul>
                 </div>
@@ -131,15 +160,16 @@
         </div>
     </div>
 
-     <!-- Modal de user-info nome e email e btao de logautt-->
-     <div id="user-info" >
+    <!-- Modal de user-info nome e email e btao de logautt-->
+    <div id="user-info">
         <div class="user-info">
-            
+
             <span class="close-button-user-info">&times;</span>
-            <div>Nome:</div>
+
+            <div>Nome: <span id="user-name"></span></div>
 
             <button id="logaut"> Logaut</i></button>
-        
+
         </div>
     </div>
 
@@ -207,7 +237,7 @@
 
 <script>
     window.addEventListener('scroll', function () {
-    
+
         var botaoVoltarTopo = document.getElementById('botaoVoltarTopo');
 
         // Mostra o botão quando o usuário rolar a página para baixo
@@ -225,7 +255,7 @@
         });
     }
 
-    document.getElementById('logaut').onclick = function() {
+    document.getElementById('logaut').onclick = function () {
         localStorage.removeItem('token');
         location.reload();
     };
@@ -234,11 +264,18 @@
         // verificar se existe token si nao mostrar  modal container se sim mostrar botao logaut
         if (localStorage.getItem('token') == null) {
             document.getElementById('modal-container').style.display = 'block';
-            } else {
-                document.getElementById('user-info').style.display = 'block';
-                }
+        } else {
+            document.getElementById('user-info').style.display = 'block';
+            var userName = localStorage.getItem("nome");
 
-   
+            // Verifica se há um nome no localStorage
+            if (userName) {
+                // Preenche o elemento span com o nome
+                document.getElementById("user-name").textContent = userName;
+            }
+        }
+
+
     });
 
     document.querySelector('.close-button').addEventListener('click', function () {
@@ -260,11 +297,11 @@
 
     document.addEventListener("DOMContentLoaded", function () {
 
-       if (localStorage.getItem('token') == null) {
-        document.getElementById('carinho').style.display = 'none';
-    }
+        if (localStorage.getItem('token') == null) {
+            document.getElementById('carinho').style.display = 'none';
+        }
 
-    
+
         var navegacaoImg = document.getElementById("navegacao");
         var navMenu = document.getElementById("navMenu");
         // Função para fechar o menu
@@ -314,6 +351,7 @@
             console.log("Token recebido:", dados.token); // Exibe o token no console
             // Guardar o token no local storage
             localStorage.setItem("token", dados.token);
+            localStorage.setItem("nome", dados.name);
 
             // Verificar se o usuário é admin
             const isAdmin = dados.isAdmin;
