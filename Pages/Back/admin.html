@@ -13,7 +13,8 @@
         /* Estilos para o botão sair */
         .btn-sair {
             position: fixed;
-            bottom: 20px;
+            top: 20px;
+            /* Defina a distância desejada do topo */
             right: 20px;
             z-index: 9999;
         }
@@ -206,9 +207,8 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Remover</button>
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-                        <button type="button" class="btn btn-primary" onclick="editarEvento(idDoEvento)">Salvar</button>
+                        <button type="button" class="btn btn-primary" id="salvarAlteracoes">Salvar</button>
 
                     </div>
                 </div>
@@ -217,12 +217,44 @@
 
 
         <!-- Botão para sair da página -->
-        <button class="btn btn-danger btn-sair" onclick="sairPagina()">X</button>
+        <button class="btn btn-danger btn-sair" onclick="sairPagina()"><i
+                class="fa-solid fa-right-from-bracket"></i></button>
 
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
             </script>
         <script>
+
+            window.onload = async () => {
+                const token = localStorage.getItem("token");
+                if (!token) {
+                    alert("Você não está autenticado.");
+                    window.location.href = "http://localhost:8080"; // ou qualquer que seja a sua página de login
+                    return;
+                }
+
+                try {
+                    const response = await fetch("http://localhost:8080/auth/letoken", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "Authorization": `Bearer ${token}`
+                        },
+                    });
+                    if (!response.ok) {
+                        throw new Error("Token inválido");
+                    }
+                    const data = await response.json();
+                    console.log("Token válido:", data);
+                    // Aqui você pode continuar carregando a página de admin
+                } catch (error) {
+                    console.error(error);
+                    alert("Nao esta autenticado.");
+                    window.location.href = "http://localhost:8080";
+                }
+            };
+
+
 
             document.addEventListener('DOMContentLoaded', function () {
                 const eventosTableBody = document.getElementById('eventosTableBody');
@@ -230,10 +262,9 @@
                 // Função para deletar um evento
                 async function apagarEvento(eventoId) {
                     try {
-                        // Confirmar a exclusão
                         const confirmarExclusao = confirm("Tem certeza de que deseja excluir este evento?");
                         if (!confirmarExclusao) {
-                            return; // Se o usuário cancelar, não faça nada
+                            return;
                         }
 
                         const response = await fetch(`http://localhost:8080/eventos/deletar/${eventoId}`, {
@@ -246,47 +277,20 @@
                         const data = await response.json();
 
                         if (response.ok) {
-                            console.log(data.msg); // Mensagem de sucesso
-                            // Remove a linha correspondente do DOM
+                            console.log(data.msg);
                             const row = document.getElementById(`evento-${eventoId}`);
                             if (row) {
                                 row.parentNode.removeChild(row);
                             }
-                            // Alerta após a exclusão
                             alert("Evento excluído com sucesso!");
                         } else {
-                            console.error(data.msg); // Mensagem de erro
+                            console.error(data.msg);
                         }
                     } catch (error) {
-                        console.error('Erro:', error); // Erro de rede ou outro erro
+                        console.error('Erro:', error);
                     }
                 }
 
-                function abrirModalEditar(eventoId) {
-                    // Aqui você pode adicionar a lógica para abrir o modal de edição com os detalhes do evento
-                    // Por exemplo, você pode fazer outra requisição AJAX para obter os detalhes do evento e preencher o formulário de edição
-
-                    // Aqui está um exemplo de como você pode preencher os campos do modal com os detalhes do evento
-                    fetch(`http://localhost:8080/eventos/listar/${eventoId}`)
-                        .then(response => response.json())
-                        .then(evento => {
-                            document.getElementById('editNomeEvento').value = evento.nome;
-                            document.getElementById('editLocalEvento').value = evento.localizacao;
-                            document.getElementById('editDataEvento').value = new Date(evento.data).toISOString().split('T')[0];
-                            document.getElementById('editDescricaoEvento').value = evento.descricao;
-                            document.getElementById('editFoto').value = evento.foto;
-                            document.getElementById('editPrecoEvento').value = evento.preco;
-                            document.getElementById('editQuantidadeEvento').value = evento.quantidade;
-                            // Preencha os outros campos conforme necessário
-                        })
-                        .catch(error => console.error('Erro ao carregar detalhes do evento:', error));
-
-                    // Abre o modal
-                    const modal = new bootstrap.Modal(document.getElementById('modalEditarEvento'));
-                    modal.show();
-                }
-
-                // Fazendo uma requisição AJAX para carregar os eventos do backend
                 fetch('http://localhost:8080/eventos/listar')
                     .then(response => response.json())
                     .then(eventos => {
@@ -294,23 +298,23 @@
                             const row = document.createElement('tr');
                             row.setAttribute('id', `evento-${evento.id}`);
                             row.innerHTML = `
-                    <td>${evento.id}</td>
-                    <td>${evento.nome}</td>
-                    <td>${new Date(evento.data).toLocaleDateString()}</td>
-                    <td>${evento.localizacao}</td>
-                    <td>${evento.preco} €</td>
-                    <td>${evento.quantidade}</td>
-                    <td>
-                        <button type="button" class="btn btn-primary btn-editar" onclick="abrirModalEditar(${evento.id})" data-bs-toggle="modal" data-bs-target="#modalEditarEvento">Editar</button>
-                        <button type="button" class="btn btn-danger btn-apagar" data-evento-id="${evento.id}">Excluir</button>
-                    </td>
-                `;
+                <td>${evento.id}</td>
+                <td>${evento.nome}</td>
+                <td>${new Date(evento.data).toLocaleDateString()}</td>
+                <td>${evento.localizacao}</td>
+                <td>${evento.preco} €</td>
+                <td>${evento.quantidade}</td>
+                <td>
+                    <button type="button" class="btn btn-primary btn-editar" onclick="abrirModalEditar(${evento.id})" data-bs-toggle="modal" data-bs-target="#modalEditarEvento">Editar</button>
+                    <button type="button" class="btn btn-danger btn-apagar" data-evento-id="${evento.id}">Excluir</button>
+                </td>
+            `;
                             eventosTableBody.appendChild(row);
                         });
                     })
                     .catch(error => console.error('Erro ao carregar eventos:', error));
 
-                // Adicionando ouvinte de evento para os botões "Excluir"
+                // Ouvinte para botão editar e apagar
                 eventosTableBody.addEventListener('click', function (event) {
                     if (event.target.classList.contains('btn-apagar')) {
                         const eventoId = event.target.getAttribute('data-evento-id');
@@ -319,10 +323,71 @@
                 });
             });
 
+            function abrirModalEditar(eventoId) {
+                fetch(`http://localhost:8080/eventos/listar/${eventoId}`)
+                    .then(response => response.json())
+                    .then(evento => {
+                        // Preencher os campos do modal com os dados do evento
+                        document.getElementById('editNomeEvento').value = evento.nome;
+                        document.getElementById('editLocalEvento').value = evento.localizacao;
+                        document.getElementById('editDataEvento').value = new Date(evento.data).toISOString().split('T')[0];
+                        document.getElementById('editDescricaoEvento').value = evento.descricao;
+                        document.getElementById('editfoto').value = evento.foto;
+                        document.getElementById('editCategoriaEvento').value = evento.categoriaId; // Ajuste conforme necessário
+                        document.getElementById('editPrecoEvento').value = evento.preco;
+                        document.getElementById('editQuantidadeEvento').value = evento.quantidade;
+
+                        // Armazenar o ID do evento para uso posterior
+                        document.getElementById('salvarAlteracoes').setAttribute('data-evento-id', eventoId);
+                    })
+                    .catch(error => console.error('Erro ao carregar os dados do evento:', error));
+            }
+            document.getElementById('salvarAlteracoes').addEventListener('click', () => {
+                const eventoId = document.getElementById('salvarAlteracoes').getAttribute('data-evento-id');
+
+                const eventoAtualizado = {
+                    nome: document.getElementById('editNomeEvento').value,
+                    localizacao: document.getElementById('editLocalEvento').value,
+                    data: new Date(document.getElementById('editDataEvento').value).toISOString(),
+                    descricao: document.getElementById('editDescricaoEvento').value,
+                    foto: document.getElementById('editfoto').value,
+                    categoriaId: document.getElementById('editCategoriaEvento').value, // Ajuste conforme necessário
+                    preco: parseFloat(document.getElementById('editPrecoEvento').value),
+                    quantidade: parseInt(document.getElementById('editQuantidadeEvento').value),
+                };
+
+                fetch(`http://localhost:8080/eventos/editar/${eventoId}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(eventoAtualizado),
+                })
+                    .then(response => {
+                        if (response.ok) {
+                            // Atualize a tabela com os novos dados
+                            const row = document.getElementById(`evento-${eventoId}`);
+                            row.querySelector('td:nth-child(2)').textContent = eventoAtualizado.nome;
+                            row.querySelector('td:nth-child(3)').textContent = new Date(eventoAtualizado.data).toLocaleDateString();
+                            row.querySelector('td:nth-child(4)').textContent = eventoAtualizado.localizacao;
+                            row.querySelector('td:nth-child(5)').textContent = `${eventoAtualizado.preco} €`;
+                            row.querySelector('td:nth-child(6)').textContent = eventoAtualizado.quantidade;
+
+                            alert("Evento editado com sucesso!");
+                            console.log(`Evento ${eventoId} atualizado com sucesso.`);
+                        } else {
+                            console.error(`Erro ao atualizar evento ${eventoId}:`, response.statusText);
+                        }
+                    })
+                    .catch(error => console.error(`Erro ao atualizar evento ${eventoId}:`, error));
+            });
 
 
             function sairPagina() {
-                if (confirm("Deseja realmente sair desta página?")) {
+                if (confirm("Deseja realmente sair?")) {
+                    // Remover o token do localStorage
+                    localStorage.removeItem('token');
+                    // Redirecionar para a página de login
                     window.location.href = "http://localhost:8080/index.html";
                 }
             }
@@ -406,36 +471,6 @@
 
 
 
-
-            window.onload = async () => {
-                const token = localStorage.getItem("token");
-                if (!token) {
-                    alert("Você não está autenticado.");
-                    window.location.href = "http://localhost:8080"; // ou qualquer que seja a sua página de login
-                    return;
-                }
-
-                try {
-                    const response = await fetch("http://localhost:8080/auth/letoken", {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json",
-                            "Authorization": `Bearer ${token}`
-                        },
-                        body: JSON.stringify({ token: token }) // Este corpo pode não ser necessário
-                    });
-                    if (!response.ok) {
-                        throw new Error("Token inválido");
-                    }
-                    const data = await response.json();
-                    console.log("Token válido:", data);
-                    // Aqui você pode continuar carregando a página de admin
-                } catch (error) {
-                    console.error(error);
-                    alert("Você não está autenticado.");
-                    window.location.href = "http://localhost:8080";
-                }
-            };
 
 
 

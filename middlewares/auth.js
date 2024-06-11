@@ -6,7 +6,7 @@ module.exports = async (req, res, next) => {
     console.log(req.headers);
     
     if (!accessToken) {
-        return res.status(401).send("Unauthorizwweddd");
+        return res.status(401).send("Unauthorized");
     }
 
     try {
