@@ -9,103 +9,9 @@
     <script src="https://kit.fontawesome.com/a563638dec.js" crossorigin="anonymous"></script>
     <title>MyTicket</title>
     <style>
-        .logo {
-            font-size: 36px;
-            font-weight: bold;
-            letter-spacing: 10px;
-            position: relative;
-            display: inline-block;
-        }
-
-        .logo a {
-            color: transparent;
+        #user-name {
             text-decoration: none;
-            background-image: linear-gradient(to right, #00CED1, #FFA500, #FF0000, #FFFF00);
-            background-clip: text;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        /* Estilo geral do modal */
-        #user-info {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgba(0, 0, 0, 0.5);
-            /* Fundo preto com opacidade */
-        }
-
-        /* Estilo da caixa do modal */
-        .user-info {
-            background-color: #fff;
-            /* Fundo branco */
-            margin: 10% auto;
-            /* Espaço ao redor e centraliza horizontalmente */
-            padding: 20px;
-            /* Espaçamento interno */
-            border: 1px solid #888;
-            /* Borda cinza */
-            width: 80%;
-            /* Largura da caixa */
-            max-width: 400px;
-            /* Largura máxima */
-            border-radius: 10px;
-            /* Bordas arredondadas */
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-            /* Sombra */
-            text-align: center;
-            /* Centraliza texto */
-        }
-
-        /* Estilo do botão de fechar */
-        .close-button {
-            color: #aaa;
-            /* Cor do texto */
-            float: right;
-            /* Alinha à direita */
-            font-size: 28px;
-            /* Tamanho do texto */
-            font-weight: bold;
-            /* Texto em negrito */
-            cursor: pointer;
-            /* Cursor de mãozinha */
-        }
-
-        .close-button:hover,
-        .close-button:focus {
-            color: #000;
-            /* Muda a cor ao passar o mouse */
-            text-decoration: none;
-            /* Remove sublinhado */
-        }
-
-        /* Estilo do botão de logout */
-        #logout {
-            background-color: #e20000;
-            /* Cor de fundo verde */
-            color: white;
-            /* Cor do texto branca */
-            padding: 10px 20px;
-            /* Espaçamento interno */
-            margin-top: 20px;
-            /* Margem superior */
-            border: none;
-            /* Sem borda */
-            border-radius: 5px;
-            /* Bordas arredondadas */
-            cursor: pointer;
-            /* Cursor de mãozinha */
-            font-size: 16px;
-        }
-
-        #logout:hover {
-            background-color: #6b2525;
-            /* Muda a cor ao passar o mouse */
+            /* Remove o sublinhado */
         }
     </style>
 </head>
@@ -117,7 +23,7 @@
             <div class="lista">
                 <div>
                     <ul class="icon_menu">
-                        <li><img src="../../Imagens/icons8-cardápio-30.png" alt="" id="navegacao"></li>
+                        <li id="navegacao"><i class="fa-solid fa-bars"></i></li>
                     </ul>
                 </div>
                 <div class="logo">
@@ -125,12 +31,14 @@
                 </div>
                 <div>
                     <ul class="nav_menu">
-                        <li><a href="#"><img src="../../Imagens/icons8-usuário-de-gênero-neutro-32.png" alt=""
-                                    id="perfil"></a>
+                        <li><a href="#" id="perfil"><i class="fa-regular fa-user"></i></a>
+                        </li>
+                        <li><span id="user-name"></span><a href="#" id="sair"> <i
+                                    class="fa-solid fa-right-from-bracket"></i></a>
                         </li>
 
-                        <li id="carinho"><a href="#"><img src="../../Imagens/icons8-carrinho-30.png" alt=""
-                                    id="carrinho"></a></li>
+                        <li id="carinho"><a href="#" id="carrinho" onclick="abrirmodalcarrinho()"><i
+                                    class="fa-solid fa-cart-shopping"></i><span id="cart-count">0</span></a></li>
 
                     </ul>
                 </div>
@@ -168,6 +76,10 @@
         </div>
     </div>
 
+
+
+
+
     <!-- Barra de navegação lateral-->
     <div class="nav-menu" id="navMenu">
         <div class="search_container">
@@ -204,8 +116,17 @@
             <p id="modalLocal"></p>
             <p id="modalDescricao"></p>
             <p id="modalPreco"></p>
-            <button class="botao" id="comprarBilhete" onclick="closeModal()">Comprar</button>
+            <button class="botao" id="comprarBilhete" onclick="addToCart()">Adicionar ao carrinho</button>
         </div>
+    </div>
+
+
+    <!-- Modal de carrinho de compras -->
+    <div id="modalCarrinho" class="modal-carrinho">
+        <span class="close-button-carrinho">&times;</span>
+        <h2>Carrinho de Compras</h2>
+        <ul id="listaCarrinho"></ul>
+        <button class="botao" id="finalizarCompra">Finalizar Compra</button>
     </div>
 
     <a href="#" class="botao-voltar-topo" id="botaoVoltarTopo"><i class="fa-solid fa-up-long"></i></a>
@@ -231,6 +152,21 @@
 </body>
 
 <script>
+    window.onload = function () {
+        // Verifica se o token existe no localStorage
+        if (localStorage.getItem('token') !== null) {
+            // Esconde o elemento com o id 'perfil'
+            document.getElementById('perfil').style.display = 'none';
+
+            // Obtém o nome do usuário do localStorage
+            var userName = localStorage.getItem('nome');
+
+            // Verifica se o nome do usuário existe e atualiza o conteúdo do elemento 'user-name'
+            if (userName) {
+                document.getElementById('user-name').textContent = userName;
+            }
+        }
+    }
     window.addEventListener('scroll', function () {
 
         var botaoVoltarTopo = document.getElementById('botaoVoltarTopo');
@@ -250,7 +186,7 @@
         });
     }
 
-    document.getElementById('logout').onclick = function () {
+    document.getElementById('sair').onclick = function () {
         localStorage.removeItem('token');
         location.reload();
     };
@@ -260,14 +196,7 @@
         if (localStorage.getItem('token') == null) {
             document.getElementById('modal-container').style.display = 'block';
         } else {
-            document.getElementById('user-info').style.display = 'block';
-            var userName = localStorage.getItem("nome");
-
-            // Verifica se há um nome no localStorage
-            if (userName) {
-                // Preenche o elemento span com o nome
-                document.getElementById("user-name").textContent = userName;
-            }
+            document.getElementById('sair').style.display = 'block';
         }
 
 
@@ -300,6 +229,7 @@
 
         if (localStorage.getItem('token') == null) {
             document.getElementById('carinho').style.display = 'none';
+            document.getElementById('sair').style.display = 'none';
         }
 
 
@@ -497,6 +427,32 @@
             carregarEventosPorCategoria(categoriaId, categoriaNome);
         });
     });
+
+
+
+
+    function abrirmodalcarrinho() {
+        var modal = document.getElementById("modalCarrinho");
+        modal.style.display = "block";
+    }
+
+    // Fechar o modal quando o usuário clicar no 'X'
+    var closeButton = document.getElementsByClassName("close-button-carrinho")[0];
+    closeButton.onclick = function () {
+        var modal = document.getElementById("modalCarrinho");
+        modal.style.display = "none";
+    }
+
+    // Fechar o modal quando o usuário clicar fora dele
+    window.onclick = function (event) {
+        var modal = document.getElementById("modalCarrinho");
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+
+
+
 
 
 

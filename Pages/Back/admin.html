@@ -225,38 +225,47 @@
             </script>
         <script>
 
-            window.onload = async () => {
-                const token = localStorage.getItem("token");
-                if (!token) {
-                    alert("Você não está autenticado.");
-                    window.location.href = "http://localhost:8080"; // ou qualquer que seja a sua página de login
-                    return;
-                }
-
+            function validarToken(token) {
                 try {
-                    const response = await fetch("http://localhost:8080/auth/letoken", {
+                    fetch("http://localhost:8080/auth/letoken", {
                         method: "POST",
                         headers: {
                             "Content-Type": "application/json",
-                            "Authorization": `Bearer ${token}`
                         },
-                    });
-                    if (!response.ok) {
-                        throw new Error("Token inválido");
-                    }
-                    const data = await response.json();
-                    console.log("Token válido:", data);
-                    // Aqui você pode continuar carregando a página de admin
+                        body: JSON.stringify({ token: token }),
+                    })
+                        .then(response => {
+                            if (!response.ok) {
+                                console.log(response);
+                                throw new Error("Erro ao validar token");
+                            }
+                            return response.json();
+                        })
+                        .then(data => {
+                            if (data.isAdmin === false) {
+                                alert("Você não é um admin");
+                                window.location.href = "http://localhost:8080"; // ou qualquer que seja a sua página de login
+                            }
+                        })
+                        .catch(error => {
+                            alert("Erro ao validar token: " + error.message);
+                        });
                 } catch (error) {
-                    console.error(error);
-                    alert("Nao esta autenticado.");
-                    window.location.href = "http://localhost:8080";
+                    alert("Erro ao validar token: " + error.message);
                 }
-            };
-
+            }
 
 
             document.addEventListener('DOMContentLoaded', function () {
+                const token = localStorage.getItem("token");
+                if (!token) {
+                    alert("Você não está autenticado.");
+                    window.location.href = "http://localhost:8080/"; // ou qualquer que seja a sua página de login
+                    return;
+                } else {
+                    // Valida o token e validar si é um admin antes de caregar a pagina
+                    validarToken(token);
+                }
                 const eventosTableBody = document.getElementById('eventosTableBody');
 
                 // Função para deletar um evento

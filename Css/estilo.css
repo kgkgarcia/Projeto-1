@@ -45,9 +45,9 @@ body {
     border-radius: 8px;
     background-color: #fff;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    display: flex; 
-    flex-direction: column; 
-  }
+    display: flex;
+    flex-direction: column;
+}
 
 .eventos {
     padding: 20px;
@@ -175,7 +175,7 @@ label {
     font-weight: bold;
 }
 
-.modal input[type="text"],
+.modal input[type="email"],
 .modal input[type="password"] {
     padding: 10px;
     margin-bottom: 16px;
@@ -292,7 +292,8 @@ label {
 #criar-conta {
     max-width: 400px;
     margin: 0 auto;
-    padding: 10px; /* Diminuído de 20px para 10px */
+    padding: 10px;
+    /* Diminuído de 20px para 10px */
     background-color: #fff;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -301,13 +302,16 @@ label {
 #criar-conta h2,
 .modal h2 {
     text-align: center;
-    font-size: 24px; /* Diminuído de 26px para 24px */
-    margin-bottom: 15px; /* Diminuído de 20px para 15px */
+    font-size: 24px;
+    /* Diminuído de 26px para 24px */
+    margin-bottom: 15px;
+    /* Diminuído de 20px para 15px */
 }
 
 #criar-conta label {
     display: block;
-    margin-bottom: 3px; /* Diminuído de 8px para 3px */
+    margin-bottom: 3px;
+    /* Diminuído de 8px para 3px */
     font-weight: bold;
 }
 
@@ -315,10 +319,14 @@ label {
 #criar-conta input[type="email"],
 #criar-conta input[type="password"],
 #criar-conta input[type="tel"] {
-    width: calc(100% - 8px); /* Ajuste proporcional ao padding */
-    padding: 8px; /* Diminuído de 10px para 8px */
-    margin-bottom: 8px; /* Diminuído de 10px para 8px */
-    margin-top: 0; /* Adicionado para remover qualquer margem superior */
+    width: calc(100% - 8px);
+    /* Ajuste proporcional ao padding */
+    padding: 8px;
+    /* Diminuído de 10px para 8px */
+    margin-bottom: 8px;
+    /* Diminuído de 10px para 8px */
+    margin-top: 0;
+    /* Adicionado para remover qualquer margem superior */
     border-radius: 5px;
     border: 1px solid #ccc;
 }
@@ -326,7 +334,8 @@ label {
 #criar-conta input[type="submit"] {
     background-color: #4CAF50;
     color: white;
-    padding: 8px 16px; /* Diminuído de 10px 20px para 8px 16px */
+    padding: 8px 16px;
+    /* Diminuído de 10px 20px para 8px 16px */
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -468,4 +477,161 @@ footer {
 
 .botao-voltar-topo:hover {
     color: #000000;
+}
+
+
+
+
+
+/*estilo index.html*/
+.logo {
+    font-size: 36px;
+    font-weight: bold;
+    letter-spacing: 10px;
+    position: relative;
+    display: inline-block;
+}
+
+.logo a {
+    color: transparent;
+    text-decoration: none;
+    background-image: linear-gradient(to right, #00CED1, #FFA500, #FF0000, #FFFF00);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* Estilo geral do modal */
+#user-info {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5);
+    /* Fundo preto com opacidade */
+}
+
+.close-button-user-info {
+    cursor: pointer;
+}
+
+/* Estilo da caixa do modal */
+.user-info {
+    background-color: #fff;
+    /* Fundo branco */
+    margin: 10% auto;
+    /* Espaço ao redor e centraliza horizontalmente */
+    padding: 20px;
+    /* Espaçamento interno */
+    border: 1px solid #888;
+    /* Borda cinza */
+    width: 80%;
+    /* Largura da caixa */
+    max-width: 400px;
+    /* Largura máxima */
+    border-radius: 10px;
+    /* Bordas arredondadas */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    /* Sombra */
+    text-align: center;
+    /* Centraliza texto */
+}
+
+/* Estilo do botão de fechar */
+.close-button {
+    color: #aaa;
+    /* Cor do texto */
+    float: right;
+    /* Alinha à direita */
+    font-size: 28px;
+    /* Tamanho do texto */
+    font-weight: bold;
+    /* Texto em negrito */
+    cursor: pointer;
+    /* Cursor de mãozinha */
+}
+
+.close-button:hover,
+.close-button:focus {
+    color: #000;
+    /* Muda a cor ao passar o mouse */
+    text-decoration: none;
+    /* Remove sublinhado */
+}
+
+/* Estilo do botão de logout */
+#logout {
+    background-color: #e20000;
+    /* Cor de fundo verde */
+    color: white;
+    /* Cor do texto branca */
+    padding: 10px 20px;
+    /* Espaçamento interno */
+    margin-top: 20px;
+    /* Margem superior */
+    border: none;
+    /* Sem borda */
+    border-radius: 5px;
+    /* Bordas arredondadas */
+    cursor: pointer;
+    /* Cursor de mãozinha */
+    font-size: 16px;
+}
+
+#logout:hover {
+    background-color: #6b2525;
+    /* Muda a cor ao passar o mouse */
+}
+
+
+/*Estilos para carrinho*/
+
+.modal-carrinho {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    right: 0;
+    top: 0;
+    width: 300px;
+    height: 100%;
+    overflow-y: auto;
+    background-color: white;
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
+    padding: 20px;
+}
+
+.modal-carrinho .close-button-carrinho {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    color: #aaa;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.modal-carrinho .close-button-carrinho:hover,
+.modal-carrinho .close-button-carrinho:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.modal-carrinho .botao {
+    display: block;
+    margin: 20px auto;
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.modal-carrinho .botao:hover {
+    background-color: #45a049;
 }

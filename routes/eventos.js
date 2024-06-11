@@ -1,6 +1,6 @@
 const express = require('express');
 const eventosController = require('../controllers/eventos');
-
+const adminMiddleware = require('../middlewares/auth');
 const router = express.Router();
 
 // Rota para adicionar um evento
