@@ -1,5 +1,38 @@
+
+/*
+DE ACORDO COM ESTA TABELA AJUSTAR AS FUNCOES PARA CRIAR, LISTAR, LISTAR POR ID, APAGAR CARRINHO E APAGAR TODOS OS ITENS DO CARINHO
+model Carrinho {
+    id           Int             @id @default(autoincrement())
+    utilizadorId Int
+    utilizador   Utilizador      @relation(fields: [utilizadorId], references: [id])
+    itens        ItensCarrinho[]
+}
+
+*/ 
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 exports.adicionarcarrinho = async (req, res) => {
     try {
