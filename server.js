@@ -2,7 +2,6 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const path = require('path');
-const adminMiddleware = require('./middlewares/auth');
 const app = express();
 
 // Middleware
@@ -35,6 +34,10 @@ app.use('/admin', adminRoutes);
 // Rota Eventos
 const eventosRoutes = require('./routes/eventos');
 app.use('/eventos', eventosRoutes);
+
+// Rota Carrinhos
+const carrinhoRoutes = require('./routes/carrinho');
+app.use('/carrinho', carrinhoRoutes);
 
 
 //categorias

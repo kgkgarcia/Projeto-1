@@ -149,3 +149,32 @@ exports.listareventoNOME = async (req, res) => {
         return res.status(500).json({ msg: "Erro interno do servidor: " + error.message });
     }
 }
+
+
+exports.pesquisarEvento = async (req, res) => {
+    try {
+        const { pesquisa } = req.query;
+        if (!pesquisa) {
+            return res.status(400).json({ msg: "Por favor, forneça um termo de pesquisa válido" });
+        }
+        // Search for events by name or description
+        const eventos = await prisma.evento.findMany({
+            where: {
+                OR: [
+                    { nome: { contains: pesquisa, mode: 'insensitive' } }, 
+                    { descricao: { contains: pesquisa, mode: 'insensitive' } },
+                    { descricao: { contains: pesquisa, mode: 'insensitive' } },
+                    { localizacao: { contains: pesquisa, mode: 'insensitive' } },
+                ],
+            },
+        });
+
+        if (!eventos || eventos.length === 0) {
+            return res.status(404).json({ msg: "Nenhum evento encontrado para a pesquisa: " + pesquisa });
+        }
+
+        return res.status(200).json(eventos);
+    } catch (error) {
+        return res.status(500).json({ msg: "Erro interno do servidor: " + error.message });
+    }
+};

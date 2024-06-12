@@ -34,8 +34,9 @@ exports.login = async (req, res) => {
         if (user) {
             const passwordIsValid = await bcrypt.compare(password, user.password);
             if (passwordIsValid) {
+                const { password, ...userWithoutPassword } = user;
                 const accessToken = authenticateUtil.generateAccessToken({ id: user.id, name: user.nome, isAdmin: user.isAdmin });
-                res.status(200).json({ name: user.nome, token: accessToken, isAdmin: user.isAdmin });
+                res.status(200).json({ token: accessToken, user: userWithoutPassword });
             } else {
                 res.status(401).json({ msg: "Password inválida!" });
             }
@@ -46,6 +47,7 @@ exports.login = async (req, res) => {
         res.status(500).json({ msg: "Erro interno do servidor: " + error.message });
     }
 }
+
 
 
 exports.getUserInfo = async (req, res) => {
@@ -60,7 +62,7 @@ exports.getUserInfo = async (req, res) => {
 
         if (user) {
             // Se o usuário for encontrado, retornamos suas informações
-            res.status(200).json({ name: user.name, email: user.email, isAdmin: user.isAdmin });
+            res.status(200).json({ name: user.nome, email: user.email, isAdmin: user.isAdmin });
         } else {
             // Se o usuário não for encontrado, retornamos um erro 404
             res.status(404).json({ msg: "Usuário não encontrado!" });

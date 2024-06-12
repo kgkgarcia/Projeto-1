@@ -26,7 +26,9 @@ body {
     margin-right: 0;
 
 }
-
+.header{
+    background-color: #f8f9fa;
+}
 
 .titulo {
     text-align: center;
@@ -199,7 +201,9 @@ label {
     margin-top: 10px;
     text-align: center;
 }
-
+.nav_menu a{
+    text-decoration: none;
+}
 
 .nav-menu {
     width: 250px;
@@ -207,7 +211,7 @@ label {
     position: fixed;
     top: 0;
     left: -250px;
-    background-color: rgba(104, 115, 133, 0.5);
+    background-color: rgb(211, 214, 218, 0.95);
     transition: left 0.3s ease;
     overflow-y: auto;
 }
@@ -596,12 +600,12 @@ footer {
     position: fixed;
     z-index: 1000;
     right: 0;
-    top: 0;
+    top: 55px;
     width: 300px;
     height: 100%;
     overflow-y: auto;
-    background-color: white;
-    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
+    background-color: rgb(211, 214, 218, 0.95);
+    box-shadow: -2px 0 3px rgba(0, 0, 0, 0.7);
     padding: 20px;
 }
 

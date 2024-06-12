@@ -31,6 +31,8 @@
                 </div>
                 <div>
                     <ul class="nav_menu">
+                        <li><a href="http://localhost:8080/admin" id="dashboard"><i class="fa-solid fa-screwdriver-wrench"></i></a>
+                        </li>
                         <li><a href="#" id="perfil"><i class="fa-regular fa-user"></i></a>
                         </li>
                         <li><span id="user-name"></span><a href="#" id="sair"> <i
@@ -116,7 +118,7 @@
             <p id="modalLocal"></p>
             <p id="modalDescricao"></p>
             <p id="modalPreco"></p>
-            <button class="botao" id="comprarBilhete" onclick="addToCart()">Adicionar ao carrinho</button>
+            <button class="botao" id="comprarBilhete" onclick="criarCarrinho()">Adicionar ao carrinho</button>
         </div>
     </div>
 
@@ -158,20 +160,33 @@
             // Esconde o elemento com o id 'perfil'
             document.getElementById('perfil').style.display = 'none';
 
-            // Obtém o nome do usuário do localStorage
-            var userName = localStorage.getItem('nome');
+            // Recupera os dados do utilizador do localStorage e parseia o JSON
+            const user = JSON.parse(localStorage.getItem('user'));
 
-            // Verifica se o nome do usuário existe e atualiza o conteúdo do elemento 'user-name'
+            // Verifica se o utilizador existe e obtém o nome do utilizador
+            const userName = user ? user.nome : null;
+
+            // Verifica se o utilizador é admin
+            const isAdmin = user ? user.isAdmin : null;
+
+            // Se o utilizador não for admin, remove o dashboard
+            if (isAdmin !== true) {
+                document.getElementById('dashboard').style.display = 'none';
+            }
+
+            // Verifica se o nome do utilizador existe e atualiza o conteúdo do elemento 'user-name'
             if (userName) {
                 document.getElementById('user-name').textContent = userName;
             }
         }
     }
+
+
     window.addEventListener('scroll', function () {
 
         var botaoVoltarTopo = document.getElementById('botaoVoltarTopo');
 
-        // Mostra o botão quando o usuário rolar a página para baixo
+        // Mostra o botão quando o utilizador rolar a página para baixo
         if (window.scrollY > 100) {
             botaoVoltarTopo.style.display = 'block';
         } else {
@@ -185,7 +200,11 @@
             behavior: 'smooth'
         });
     }
-
+    function fecharMenu() {
+            document.getElementById("navMenu").classList.remove("open");
+            document.getElementById('navegacao').style.display = 'block';
+            document.body.classList.remove("menu-aberto");
+        }
     document.getElementById('sair').onclick = function () {
         localStorage.removeItem('token');
         location.reload();
@@ -216,35 +235,28 @@
         }
     });
 
-    window.addEventListener('click', function (event) {
-        if (event.target == document.getElementById('user-info')) {
-            document.getElementById('user-info').style.display = 'none';
-        }
-    });
-
-
-
 
     document.addEventListener("DOMContentLoaded", function () {
 
         if (localStorage.getItem('token') == null) {
             document.getElementById('carinho').style.display = 'none';
             document.getElementById('sair').style.display = 'none';
+            document.getElementById('dashboard').style.display = 'none';
         }
 
 
         var navegacaoImg = document.getElementById("navegacao");
         var navMenu = document.getElementById("navMenu");
         // Função para fechar o menu
-        function fecharMenu() {
-            navMenu.classList.remove("open");
-            document.body.classList.remove("menu-aberto");
-        }
+       
+
+
 
 
         // Abrir o menu quando a imagem de navegação for clicada
         navegacaoImg.addEventListener("click", function () {
             navMenu.classList.toggle("open");
+            document.getElementById('navegacao').style.display = 'none';
             document.body.classList.toggle("menu-aberto");
         });
 
@@ -258,13 +270,12 @@
         });
     });
 
+
     const login = async () => {
         var dados = {
             email: document.getElementById("email").value,
             password: document.getElementById("password").value,
         };
-        console.log("Dados da solicitação de login:", dados); // Exibe os dados da solicitação no console
-
         const response = await fetch("http://localhost:8080/auth/login", {
             method: "POST",
             headers: {
@@ -280,17 +291,14 @@
         } else {
             alert("Login efetuado com sucesso");
             console.log("Token recebido:", dados.token); // Exibe o token no console
+
             // Guardar o token no local storage
             localStorage.setItem("token", dados.token);
-            localStorage.setItem("nome", dados.name);
 
-            // Verificar se o usuário é admin
-            const isAdmin = dados.isAdmin;
-            if (isAdmin) {
-                window.location.href = "http://localhost:8080/admin";
-            } else {
-                window.location.href = "http://localhost:8080";
-            }
+            // Guardar os dados do utilizador no local storage
+            localStorage.setItem("user", JSON.stringify(dados.user));
+
+            window.location.href = "http://localhost:8080";
         }
     };
 
@@ -325,6 +333,7 @@
 
 
     document.addEventListener('DOMContentLoaded', function () {
+        
         const eventosContainer = document.getElementById('eventosContainer');
 
         // Fazendo uma requisição AJAX para carregar os eventos do backend
@@ -432,29 +441,111 @@
 
 
     function abrirmodalcarrinho() {
-        var modal = document.getElementById("modalCarrinho");
-        modal.style.display = "block";
-    }
+    var modal = document.getElementById("modalCarrinho");
+    modal.style.display = "block";
+}
 
-    // Fechar o modal quando o usuário clicar no 'X'
+
+    // Fechar o modal quando o utilizador clicar no 'X'
     var closeButton = document.getElementsByClassName("close-button-carrinho")[0];
     closeButton.onclick = function () {
         var modal = document.getElementById("modalCarrinho");
         modal.style.display = "none";
     }
 
-    // Fechar o modal quando o usuário clicar fora dele
-    window.onclick = function (event) {
-        var modal = document.getElementById("modalCarrinho");
-        if (event.target == modal) {
-            modal.style.display = "none";
+ 
+
+   
+
+
+
+    /*FUNCOES PARA MANIPULAR DADOS NO CARRINHO*/
+
+
+    const criarCarrinho = async () => {
+        try {
+            // Get the user ID from local storage
+            const utilizadorId = localStorage.getItem('id');
+
+            // Check if the user already has a cart
+            const response = await fetch(`http://localhost:8080/carrinho/listar/${utilizadorId}`);
+            const cartExists = await response.json();
+
+            if (!cartExists) {
+                // Create a new cart for the user
+                const response = await fetch('http://localhost:8080/carrinho/adicionar/', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ utilizadorId }),
+                });
+
+                const novoCarrinho = await response.json();
+                console.log(`Cart created: ${novoCarrinho.id}`);
+            } else {
+                console.log('Cart already exists');
+            }
+        } catch (error) {
+            console.error(error);
         }
-    }
+    };
+
+
+    const pesquisarEventos = async () => {
+        const termoPesquisa = document.getElementById('search').value.trim();
+
+        if (termoPesquisa.length === 0) {
+            alert('Por favor, insira um termo de pesquisa válido.');
+            return;
+        }
+
+        try {
+            const response = await fetch(`http://localhost:8080/eventos/pesquisar?pesquisa=${termoPesquisa}`);
+            const eventosPesquisados = await response.json();
+
+            if (response.ok) {
+                const eventosContainer = document.getElementById('eventosContainer');
+                eventosContainer.innerHTML = ''; // Limpa os eventos anteriores
+                fecharMenu();
+                document.getElementById('tituloEventos').innerHTML = `Resultados em: <span style="color: blue;">${termoPesquisa}</span>`;
 
 
 
+                eventosPesquisados.forEach(evento => {
+                    const cardEvento = `
+                        <div class="card-evento">
+                            <img src="${evento.foto}" alt="${evento.nome}">
+                            <h3>${evento.nome}</h3>
+                            <p>${evento.descricao || 'Descrição não disponível'}</p>
+                            <button class="botao" id="mais" onclick="openModal(${evento.id})">Ver mais</button>
+                        </div>
+                    `;
+                    eventosContainer.innerHTML += cardEvento;
+                });
+            } else {
+                const eventosContainer = document.getElementById('eventosContainer');
+                eventosContainer.innerHTML = ''; // Limpa os eventos anteriores
+                fecharMenu();
+                document.getElementById('tituloEventos').innerHTML = `Nenhum resultado  em: <span style="color: blue;">${termoPesquisa}</span>`;
 
 
+
+              
+            }
+        } catch (error) {
+            console.error('Erro ao pesquisar eventos:', error);
+            alert('Erro ao pesquisar eventos. Por favor, tente novamente mais tarde.');
+        }
+    };
+
+    // Adiciona um event listener para o botão de pesquisa
+    document.getElementById('search-button').addEventListener('click', pesquisarEventos);
+
+    // Adiciona um event listener para a tecla Enter no campo de pesquisa
+    document.getElementById('search').addEventListener('keypress', function (e) {
+        if (e.key === 'Enter') {
+            pesquisarEventos();
+        }
+    });
 
 </script>
 

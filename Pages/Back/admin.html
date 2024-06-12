@@ -10,29 +10,65 @@
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="../../Css/estilo.css">
     <style>
-        /* Estilos para o botão sair */
-        .btn-sair {
-            position: fixed;
-            top: 20px;
-            /* Defina a distância desejada do topo */
-            right: 20px;
-            z-index: 9999;
+        .menu {
+            padding: 10px;
+            background-color: #f8f9fa;
         }
 
-        h3 {
-            font-weight: bold;
-            margin: 20px;
-            font-family: sans-serif;
-            font-size: 30pt;
+        .menu-container {
+            display: flex;
+            justify-content: space-between;
+            /* Para alinhar os elementos à esquerda e à direita */
+            align-items: center;
+            /* Para alinhar verticalmente */
+        }
+
+        .menu h3 {
+            margin: 0;
+            text-decoration: bold;
+            /* Remover margem padrão */
+        }
+
+        .menu ul {
+            display: flex;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .menu ul li {
+            margin-left: 20px;
+        }
+
+        .menu a {
+            text-decoration: none;
+            color: #333;
+            font-size: 1.5em;
+            cursor: pointer;
+        }
+
+        .menu a:hover {
+            color: #007bff;
         }
     </style>
 </head>
 
 <body>
-    <div class="logo-container">
-        <h3>Admin Page</h3>
-        <img src="../../Imagens/logo.jpg" alt="MyTicket" class="admin">
-    </div>
+
+    <header class="menu">
+        <div class="menu-container">
+            <div>
+                <h3>Admin Page</h3>
+            </div>
+            <ul>
+                <li><a class="" onclick="sairPagina()"><i class="fa-solid fa-right-from-bracket"></i></a></li>
+                <li><a href="http://localhost:8080"><i class="fa-solid fa-house"></i></a></li>
+            </ul>
+        </div>
+    </header>
+
+
+
     <div class="container-fluid">
 
 
@@ -216,9 +252,7 @@
         </div>
 
 
-        <!-- Botão para sair da página -->
-        <button class="btn btn-danger btn-sair" onclick="sairPagina()"><i
-                class="fa-solid fa-right-from-bracket"></i></button>
+
 
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
@@ -270,7 +304,9 @@
 
                 // Função para deletar um evento
                 async function apagarEvento(eventoId) {
+
                     try {
+                        
                         const confirmarExclusao = confirm("Tem certeza de que deseja excluir este evento?");
                         if (!confirmarExclusao) {
                             return;
@@ -279,7 +315,8 @@
                         const response = await fetch(`http://localhost:8080/eventos/deletar/${eventoId}`, {
                             method: 'DELETE',
                             headers: {
-                                'Content-Type': 'application/json'
+                                'Content-Type': 'application/json',
+                                'Authorization': `Bearer ${token}`,
                             },
                         });
 
@@ -300,24 +337,32 @@
                     }
                 }
 
-                fetch('http://localhost:8080/eventos/listar')
+                fetch('http://localhost:8080/eventos/listar',
+                {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    },
+                })
+                
                     .then(response => response.json())
                     .then(eventos => {
                         eventos.forEach(evento => {
                             const row = document.createElement('tr');
                             row.setAttribute('id', `evento-${evento.id}`);
                             row.innerHTML = `
-                <td>${evento.id}</td>
-                <td>${evento.nome}</td>
-                <td>${new Date(evento.data).toLocaleDateString()}</td>
-                <td>${evento.localizacao}</td>
-                <td>${evento.preco} €</td>
-                <td>${evento.quantidade}</td>
-                <td>
-                    <button type="button" class="btn btn-primary btn-editar" onclick="abrirModalEditar(${evento.id})" data-bs-toggle="modal" data-bs-target="#modalEditarEvento">Editar</button>
-                    <button type="button" class="btn btn-danger btn-apagar" data-evento-id="${evento.id}">Excluir</button>
-                </td>
-            `;
+                            <td>${evento.id}</td>
+                            <td>${evento.nome}</td>
+                            <td>${new Date(evento.data).toLocaleDateString()}</td>
+                            <td>${evento.localizacao}</td>
+                            <td>${evento.preco} €</td>
+                            <td>${evento.quantidade}</td>
+                            <td>
+                                <button type="button" class="btn btn-primary btn-editar" onclick="abrirModalEditar(${evento.id})" data-bs-toggle="modal" data-bs-target="#modalEditarEvento">Editar</button>
+                                <button type="button" class="btn btn-danger btn-apagar" data-evento-id="${evento.id}">Excluir</button>
+                            </td>
+                            `;
                             eventosTableBody.appendChild(row);
                         });
                     })
@@ -333,7 +378,15 @@
             });
 
             function abrirModalEditar(eventoId) {
-                fetch(`http://localhost:8080/eventos/listar/${eventoId}`)
+                fetch(`http://localhost:8080/eventos/listar/${eventoId}`,
+                    {
+                        method: 'GET',
+                        headers: {
+                           
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                            },
+                            })
                     .then(response => response.json())
                     .then(evento => {
                         // Preencher os campos do modal com os dados do evento
@@ -369,6 +422,7 @@
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`,
                     },
                     body: JSON.stringify(eventoAtualizado),
                 })
@@ -427,6 +481,7 @@
                         method: "POST",
                         headers: {
                             "Content-Type": "application/json",
+                            "Authorization": `Bearer ${localStorage.getItem('token')}`
                         },
                         body: JSON.stringify(dados),
                     });
