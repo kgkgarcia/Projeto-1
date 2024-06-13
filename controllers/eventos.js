@@ -128,28 +128,6 @@ exports.listarPorCategoria = async (req, res) => {
 };
 
 
-exports.listareventoNOME = async (req, res) => {
-    try {
-        const { nome } = req.params;
-        // Verifica se o evento existe
-        const eventoExistente = await prisma.evento.findUnique({
-            where: { nome: parseInt(nome) },
-        });
-
-        if (!eventoExistente) {
-            return res.status(404).json({ msg: "Evento não encontrado" });
-        }
-        // Lista aquele o evento 
-        const evento = await prisma.evento.findUnique({
-            where: { nome: parseInt(nome) },
-        });
-
-        return res.status(200).json(evento);
-    } catch (error) {
-        return res.status(500).json({ msg: "Erro interno do servidor: " + error.message });
-    }
-}
-
 
 exports.pesquisarEvento = async (req, res) => {
     try {

@@ -12,8 +12,7 @@ router.get('/listar', eventosController.listareventoALL);
 router.get('/listar/:id', eventosController.listareventoID);
 // Rota para listar todos os eventos daquela categoria
 router.get('/listarcat/:categoria', eventosController.listarPorCategoria);
-// Rota para listar o evento com aquele nome
-router.get('/listarnome/:nome', eventosController.listareventoNOME);
+// rota para pesquisa
 router.get('/pesquisar/', eventosController.pesquisarEvento);
 // Rota para editar um evento
 router.put('/editar/:id',adminMiddleware, eventosController.editarevento);
