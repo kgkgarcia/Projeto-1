@@ -39,6 +39,10 @@ app.use('/eventos', eventosRoutes);
 const carrinhoRoutes = require('./routes/carrinho');
 app.use('/carrinho', carrinhoRoutes);
 
+// Rota itens
+const itens = require('./routes/itenscarrinho');
+app.use('/itens', itens);
+
 
 //categorias
 const categoriasRoutes = require('./routes/categorias');

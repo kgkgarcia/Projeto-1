@@ -108,6 +108,9 @@ body {
     margin-bottom: 8px;
 }
 
+#navegacao{
+    cursor: pointer;
+}
 
 .botao {
     display: inline-block;
@@ -116,6 +119,7 @@ body {
     color: #fff;
     text-decoration: none;
     border-radius: 5px;
+    cursor: pointer;
     transition: background-color 0.3s ease;
 }
 
@@ -204,7 +208,11 @@ label {
 .nav_menu a{
     text-decoration: none;
 }
+#myticket{
 
+    justify-items: center;
+
+}
 .nav-menu {
     width: 250px;
     height: 100%;
@@ -639,3 +647,77 @@ footer {
 .modal-carrinho .botao:hover {
     background-color: #45a049;
 }
+
+
+
+
+/* Modal cart styles */
+
+  .modal-carrinho .close-button-carrinho {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 18px;
+    cursor: pointer;
+  }
+  
+  .modal-carrinho h2 {
+    margin-top: 0;
+  }
+  
+  .modal-carrinho ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .modal-carrinho li {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .modal-carrinho li:last-child {
+    border-bottom: none;
+  }
+  
+  .modal-carrinho .quantidade {
+    font-weight: bold;
+    margin: 0 10px;
+  }
+  
+  .modal-carrinho .botao-quantidade {
+    background-color: #4CAF50;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  .modal-carrinho .botao-quantidade:hover {
+    background-color: #3e8e41;
+  }
+  
+  .modal-carrinho .total {
+    padding: 10px;
+    background-color: #f0f0f0;
+    border-top: 1px solid #ddd;
+  }
+  
+  .modal-carrinho .total p {
+    margin: 0;
+  }
+  
+  .modal-carrinho #finalizarCompra {
+    background-color: #4CAF50;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 18px;
+    cursor: pointer;
+  }
+  
+  .modal-carrinho #finalizarCompra:hover {
+    background-color: #3e8e41;
+  }
+
