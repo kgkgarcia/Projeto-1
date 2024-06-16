@@ -66,23 +66,6 @@
         </div>
     </div>
 
-    <!-- Modal de user-info nome e email e btao de logoutt-->
-    <div id="user-info">
-        <div class="user-info">
-
-            <span class="close-button-user-info">&times;</span>
-
-            <div>Conta: <span id="user-name"></span></div>
-
-            <button id="logout"><i class="fa-solid fa-right-from-bracket"></i></button>
-
-        </div>
-    </div>
-
-
-
-
-
     <!-- Barra de navegação lateral-->
     <div class="nav-menu" id="navMenu">
         <div class="search_container">
@@ -134,9 +117,8 @@
         <div class="total">
             <p>Total: € <span id="totalCarrinho">0.00</span></p>
         </div>
-        <button class="botao" id="finalizarCompra">Finalizar Compra</button>
+        <button class="botao" id="finalizarCompra" onclick="finalizarCompra()">Finalizar Compra</button>
     </div>
-
 
 
     <a href="#" class="botao-voltar-topo" id="botaoVoltarTopo"><i class="fa-solid fa-up-long"></i></a>
@@ -217,6 +199,7 @@
     }
     document.getElementById('sair').onclick = function () {
         localStorage.removeItem('token');
+        localStorage.removeItem('user');
         location.reload();
     };
 
@@ -235,9 +218,6 @@
         document.getElementById('modal-container').style.display = 'none';
     });
 
-    document.querySelector('.close-button-user-info').addEventListener('click', function () {
-        document.getElementById('user-info').style.display = 'none';
-    });
 
     window.addEventListener('click', function (event) {
         if (event.target == document.getElementById('modal-container')) {
@@ -299,15 +279,12 @@
         if (!response.ok) {
             alert("Erro ao fazer login");
         } else {
-            alert("Login efetuado com sucesso");
-            console.log("Token recebido:", dados.token); // Exibe o token no console
-
             // Guardar o token no local storage
             localStorage.setItem("token", dados.token);
-
             // Guardar os dados do utilizador no local storage
             localStorage.setItem("user", JSON.stringify(dados.user));
-
+            getCarrinho();
+            listarItensDoCarrinho();
             window.location.href = "http://localhost:8080";
         }
     };
@@ -544,7 +521,6 @@
             const response = await fetch(`http://localhost:8080/carrinho/listar/${utilizadorId}`);
             if (response.ok) {
                 const carrinho = await response.json();
-                console.log(carrinho);
                 localStorage.setItem('carrinhoId', carrinho.id);
             } else {
                 console.error('Erro ao obter carrinho do utilizador');
@@ -561,6 +537,7 @@
 
     // funcao para adicionar item ao carrinho, id do item no localstorage usar fetch com rota
     async function adicionarItemAoCarrinho() {
+        getCarrinho()
         try {
             const carrinhoId = parseInt(localStorage.getItem('carrinhoId'), 10);
             const eventoId = parseInt(localStorage.getItem('eventId'), 10);
@@ -589,14 +566,11 @@
                 body: JSON.stringify(dados)
             });
 
-            console.log(dados);
-
             if (!response.ok) {
                 throw new Error('Erro ao adicionar item ao carrinho');
             }
 
             const resultado = await response.json();
-            console.log('Item adicionado com sucesso:', resultado);
             listarItensDoCarrinho();
 
         } catch (error) {
@@ -606,46 +580,165 @@
 
 
     // funcao para listar os itens no modal do carrinho
+    // Função para listar os itens no modal do carrinho
     async function listarItensDoCarrinho() {
-    try {
-        const carrinhoId = localStorage.getItem('carrinhoId');
-        if (isNaN(carrinhoId)) {
-            console.error('ID do carrinho não encontrado ou inválido no localStorage');
-            return;
-        }
-        const response = await fetch(`http://localhost:8080/itens/listarEventos/${carrinhoId}`);
-        if (response.ok) {
-            const resultado = await response.json();
-            const listaCarrinho = document.getElementById('listaCarrinho');
-            listaCarrinho.innerHTML = '';
-            let total = 0;
-            resultado.forEach((item) => {
-                const listItem = document.createElement('li');
-                listItem.innerHTML = `
-                    <span>${item.evento.nome}</span>
-                    <span>€ ${item.evento.preco}</span>
-                    <button class="botao-quantidade" data-action="minus">-</button>
-                    <span class="quantidade">${item.quantidade}</span>
-                    <button class="botao-quantidade" data-action="plus">+</button>
+        try {
+            const carrinhoId = localStorage.getItem('carrinhoId');
+            if (isNaN(carrinhoId)) {
+                console.error('ID do carrinho não encontrado ou inválido no localStorage');
+                return;
+            }
+            const response = await fetch(`http://localhost:8080/itens/listarEventos/${carrinhoId}`);
+            if (response.ok) {
+                const resultado = await response.json();
+                const listaCarrinho = document.getElementById('listaCarrinho');
+                listaCarrinho.innerHTML = '';
+                let total = 0;
+                let itemCount = 0; // Contador de itens no carrinho
+
+                resultado.forEach((item) => {
+                    const listItem = document.createElement('li');
+                    listItem.innerHTML = `
+                    <div class="evento-info">
+                        <h3>${item.evento.nome}</h3>
+                        <p>€ ${item.evento.preco}</p>
+                    </div>
+                    <div class="quantidade-container">
+                        <button class="botao-quantidade" data-action="minus" data-item-id="${item.id}">-</button>
+                        <span class="quantidade">${item.quantidade}</span>
+                        <button class="botao-quantidade" data-action="plus" data-item-id="${item.id}">+</button>
+                        <button class="botao-eliminar" title="Eliminar item do carrinho" data-item-id="${item.id}">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+                    </div>
                 `;
-                listaCarrinho.appendChild(listItem);
-                total += item.evento.preco * item.quantidade;
-            });
-            document.getElementById('totalCarrinho').textContent = total.toFixed(2);
-        } else {
-            console.error('Erro ao listar itens do carrinho');
+                    listaCarrinho.appendChild(listItem);
+                    total += item.evento.preco * item.quantidade;
+                    itemCount += item.quantidade; // Atualiza o contador de itens
+                });
+
+                document.getElementById('totalCarrinho').textContent = total.toFixed(2);
+                document.getElementById('cart-count').textContent = itemCount; // Atualiza o número de itens no carrinho
+
+                // Adicionar manipuladores de eventos para os botões de eliminar, aumentar e diminuir quantidade
+                const botoesEliminar = document.querySelectorAll('.botao-eliminar');
+                botoesEliminar.forEach(botao => {
+                    botao.addEventListener('click', async (e) => {
+                        const eventoId = e.currentTarget.getAttribute('data-item-id');
+                        await removerItemDoCarrinho(eventoId);
+                    });
+                });
+
+                const botoesQuantidade = document.querySelectorAll('.botao-quantidade');
+                botoesQuantidade.forEach(botao => {
+                    botao.addEventListener('click', async (e) => {
+                        const eventoId = e.currentTarget.getAttribute('data-item-id');
+                        const action = e.currentTarget.getAttribute('data-action');
+                        if (action === 'plus') {
+                            await alterarQuantidadeItemCarrinho(eventoId, 'increase');
+                        } else if (action === 'minus') {
+                            await alterarQuantidadeItemCarrinho(eventoId, 'decrease');
+                        }
+                    });
+                });
+            } else {
+                console.error('Erro ao listar itens do carrinho');
+            }
+            console.log('Itens do carrinho listados com sucesso');
+        } catch (error) {
+            console.error('Erro ao listar itens do carrinho:', error);
         }
-    } catch (error) {
-        console.error('Erro ao listar itens do carrinho:', error);
     }
-}
+
+    async function removerItemDoCarrinho(eventoId) {
+        try {
+            const response = await fetch(`http://localhost:8080/itens/apagarEvento/${eventoId}`, {
+                method: 'DELETE'
+            });
+
+            if (!response.ok) {
+                throw new Error('Erro ao remover item do carrinho');
+            }
+
+            console.log('Item removido com sucesso');
+            listarItensDoCarrinho();  // Atualiza a lista de itens do carrinho
+        } catch (error) {
+            console.error('Erro ao remover item do carrinho:', error);
+        }
+    }
+
+    async function alterarQuantidadeItemCarrinho(eventoId, action) {
+        try {
+            let url;
+            let novaQuantidade;
+
+            if (action === 'increase') {
+                url = `http://localhost:8080/itens/editarQuantidade/${eventoId}`;
+                novaQuantidade = 1;
+            } else if (action === 'decrease') {
+                url = `http://localhost:8080/itens/editarQuantidade/${eventoId}`;
+                novaQuantidade = -1;
+            } else {
+                console.error('Ação desconhecida para alterar quantidade do item no carrinho');
+                return;
+            }
+
+            const response = await fetch(url, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ novaQuantidade })
+            });
+
+            if (!response.ok) {
+                throw new Error(`Erro ao ${action === 'increase' ? 'aumentar' : 'diminuir'} quantidade do item no carrinho`);
+            }
+
+            console.log(`Quantidade do item ${action === 'increase' ? 'aumentada' : 'diminuída'} com sucesso`);
+            listarItensDoCarrinho();  // Atualiza a lista de itens do carrinho
+        } catch (error) {
+            console.error(`Erro ao ${action === 'increase' ? 'aumentar' : 'diminuir'} quantidade do item no carrinho:`, error);
+        }
+    }
 
 
+    // fazer com que o carrinho seja limpo quando o utilizador faz checkout
 
+    // corrigir a estrutura e css do carrionho
 
-// fazer com que o botao de remover item funciona, aumentar e diminuir quantidade
-// corrigir a estrutura e css do carrionho
+    // umm controlador que apaga o carrinho do utilizador, essa funcao finge a compra dos eventos, entao ela deve ser capaz de remover a quantidade dos eventos de acordo com a compra
+    async function finalizarCompra() {
+        try {
+            const user = JSON.parse(localStorage.getItem('user'));
+            if (!user || !user.id) {
+                console.error('ID do utilizador não encontrado no localStorage');
+                return;
+            }
+            const utilizadorId = user.id;
 
+            const response = await fetch(`http://localhost:8080/itens/finalizarCompra/${utilizadorId}`, {
+                method: 'POST'
+            });
+
+            if (!response.ok) {
+                throw new Error('Erro ao finalizar a compra');
+            }
+
+            const resultado = await response.json();
+            console.log('Compra finalizada com sucesso:', resultado);
+
+            // Limpar a interface do carrinho
+            listarItensDoCarrinho();
+
+            // Notificação de sucesso
+            alert('Compra finalizada com sucesso!');
+
+        } catch (error) {
+            console.error('Erro ao finalizar a compra:', error);
+            alert('Erro ao finalizar a compra');
+        }
+    }
 
 
 

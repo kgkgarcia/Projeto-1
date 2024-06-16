@@ -7,12 +7,14 @@ const router = express.Router();
 router.post('/adicionarEvento', itensController.adicionar);
 
 // Rota para apagar um evento do carrinho por ID
-router.delete('/apagarEvento/:itemId', itensController.apagar);
+router.delete('/apagarEvento/:eventoId', itensController.apagar);
 
 // Rota para editar a quantidade de um evento no carrinho
-router.put('/editarQuantidade/:itemId', itensController.editarQuantidade);
+router.put('/editarQuantidade/:eventoId', itensController.editarQuantidade);
 
 // Rota para listar todos os eventos no carrinho de um determinado carrinhoId
 router.get('/listarEventos/:carrinhoId', itensController.listar);
+
+router.post('/finalizarCompra/:utilizadorId', itensController.finalizarCompra);
 
 module.exports = router;
