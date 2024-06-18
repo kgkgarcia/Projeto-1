@@ -30,6 +30,15 @@
         <input type="tel" id="phone" name="phone" pattern="[0-9]{9}" placeholder="Ex: 912345678" required><br>
         <input type="button" value="Criar Conta" class="botaolog" onclick="novoUser()">
     </form>
+
+    <!-- Modal de alerta -->
+    <div id="alert-modal" class="modal-alert">
+        <div class="alert-modal-content">
+            <span class="close-alert">&times;</span>
+            <p id="alert-message"></p>
+            <button id="ok-button" class="ok-button">OK</button>
+        </div>
+    </div>
     <!-- Rodape do site-->
     <footer>
         <div class="menu">
@@ -86,13 +95,40 @@
             }
 
             const data = await response.json();
-            alert("Conta criada com sucesso!");
+            showAlert("Conta criada com sucesso!");
             window.location.href = "http://localhost:8080/index.html"; 
         } catch (error) {
             alert("Erro ao criar conta: " + error.message);
         }
     }
 
+
+
+        // Função para exibir o modal de alerta
+        function showAlert(message) {
+        const modal = document.getElementById('alert-modal');
+        const alertMessage = document.getElementById('alert-message');
+        alertMessage.textContent = message;
+        modal.style.display = 'block';
+    }
+
+    // Função para fechar o modal de alerta
+    function closeAlert() {
+        const modal = document.getElementById('alert-modal');
+        modal.style.display = 'none';
+    }
+
+    // Fechar o modal quando o botão 'X' ou 'OK' é clicado
+    document.querySelector('.close-alert').addEventListener('click', closeAlert);
+    document.querySelector('#ok-button').addEventListener('click', closeAlert);
+
+    // Fechar o modal quando o usuário clica fora do conteúdo do modal
+    window.addEventListener('click', function (event) {
+        const modal = document.getElementById('alert-modal');
+        if (event.target == modal) {
+            modal.style.display = 'none';
+        }
+    });
 
 </script>
 

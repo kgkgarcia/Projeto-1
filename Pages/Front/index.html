@@ -120,6 +120,18 @@
         <button class="botao" id="finalizarCompra" onclick="finalizarCompra()">Finalizar Compra</button>
     </div>
 
+    <!-- Modal de alerta -->
+    <div id="alert-modal" class="modal-alert">
+        <div class="alert-modal-content">
+            <span class="close-alert">&times;</span>
+            <p id="alert-message"></p>
+            <button id="ok-button" class="ok-button">OK</button>
+        </div>
+    </div>
+
+
+
+
 
     <a href="#" class="botao-voltar-topo" id="botaoVoltarTopo"><i class="fa-solid fa-up-long"></i></a>
 
@@ -569,7 +581,10 @@
             if (!response.ok) {
                 throw new Error('Erro ao adicionar item ao carrinho');
             }
-
+            else{
+                console.log('Item adicionado ao carrinho com sucesso');
+                showAlert("Item adicionado ao carrinho com sucesso");
+            }
             const resultado = await response.json();
             listarItensDoCarrinho();
 
@@ -579,7 +594,7 @@
     }
 
 
-    // funcao para listar os itens no modal do carrinho
+
     // Função para listar os itens no modal do carrinho
     async function listarItensDoCarrinho() {
         try {
@@ -702,12 +717,6 @@
         }
     }
 
-
-    // fazer com que o carrinho seja limpo quando o utilizador faz checkout
-
-    // corrigir a estrutura e css do carrionho
-
-    // umm controlador que apaga o carrinho do utilizador, essa funcao finge a compra dos eventos, entao ela deve ser capaz de remover a quantidade dos eventos de acordo com a compra
     async function finalizarCompra() {
         try {
             const user = JSON.parse(localStorage.getItem('user'));
@@ -726,19 +735,43 @@
             }
 
             const resultado = await response.json();
-            console.log('Compra finalizada com sucesso:', resultado);
+            showAlert("Compra finalizada com sucesso! Obrigado!");
 
             // Limpar a interface do carrinho
             listarItensDoCarrinho();
-
-            // Notificação de sucesso
-            alert('Compra finalizada com sucesso!');
 
         } catch (error) {
             console.error('Erro ao finalizar a compra:', error);
             alert('Erro ao finalizar a compra');
         }
     }
+
+
+    // Função para exibir o modal de alerta
+    function showAlert(message) {
+        const modal = document.getElementById('alert-modal');
+        const alertMessage = document.getElementById('alert-message');
+        alertMessage.textContent = message;
+        modal.style.display = 'block';
+    }
+
+    // Função para fechar o modal de alerta
+    function closeAlert() {
+        const modal = document.getElementById('alert-modal');
+        modal.style.display = 'none';
+    }
+
+    // Fechar o modal quando o botão 'X' ou 'OK' é clicado
+    document.querySelector('.close-alert').addEventListener('click', closeAlert);
+    document.querySelector('#ok-button').addEventListener('click', closeAlert);
+
+    // Fechar o modal quando o usuário clica fora do conteúdo do modal
+    window.addEventListener('click', function (event) {
+        const modal = document.getElementById('alert-modal');
+        if (event.target == modal) {
+            modal.style.display = 'none';
+        }
+    });
 
 
 
