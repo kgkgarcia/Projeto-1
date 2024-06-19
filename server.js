@@ -43,13 +43,17 @@ app.use('/carrinho', carrinhoRoutes);
 const itens = require('./routes/itenscarrinho');
 app.use('/itens', itens);
 
-
-//categorias
+// categorias
 const categoriasRoutes = require('./routes/categorias');
 app.use('/api', categoriasRoutes);
 
+// Rota base para servir a aplicação
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'Pages/Front', 'index.html'));
+});
+
 // Porta
-const port = process.env.SERVER_PORT || 8080;
+const port = process.env.PORT || 8080;
 app.listen(port, () => {
     console.log('Express server listening on port', port);
 });
