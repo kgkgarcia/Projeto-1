@@ -67,9 +67,6 @@ exports.listarcarrinhoID = async (req, res) => {
       where: { utilizadorId: parseInt(utilizadorId) },
     });
 
-    if (!carrinhoExistente) {
-      return res.status(404).json({ msg: "Esse carrinho não foi encontrado" });
-    }
 
     // List the found shopping cart
     return res.status(200).json(carrinhoExistente);
@@ -77,4 +74,3 @@ exports.listarcarrinhoID = async (req, res) => {
     return res.status(500).json({ msg: "Erro interno do servidor: " + error.message });
   }
 }
-

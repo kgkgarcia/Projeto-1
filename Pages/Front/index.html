@@ -184,7 +184,7 @@
         localStorage.removeItem('token');
         localStorage.removeItem('user');
         localStorage.removeItem('carrinhoId');
-        // alerta de logout usa a funcao showalert
+        // alerta de logout 
         showAlert("Sessão terminada!");
         location.reload();
     };
@@ -266,11 +266,9 @@
             // Guardar os dados do utilizador no local storage
             localStorage.setItem("user", JSON.stringify(dados.user));
             getCarrinho();
-            listarItensDoCarrinho();
             window.location.href = "http://localhost:8080";
         }
     };
-
 
 
     document.addEventListener('DOMContentLoaded', function () {
@@ -479,8 +477,6 @@
 
             if (response.ok) {
                 const carrinho = await response.json();
-                console.log(carrinho);
-                // quero guardar o id deste carrinho criado
                 localStorage.setItem('carrinhoId', carrinho.id);
             } else {
                 console.log('Erro ao criar carrinho:', response.status);
@@ -503,10 +499,12 @@
             const response = await fetch(`http://localhost:8080/carrinho/listar/${utilizadorId}`);
             if (response.ok) {
                 const carrinho = await response.json();
-                localStorage.setItem('carrinhoId', carrinho.id);
-            } else {
-                console.error('Erro ao obter carrinho do utilizador');
-                criarCarrinho();
+                if (carrinho) {
+                    localStorage.setItem('carrinhoId', carrinho.id);
+                }
+                else {
+                    criarCarrinho();
+                }
             }
         } catch (error) {
             console.error('Erro ao obter carrinho do utilizador:', error);
@@ -519,7 +517,6 @@
 
     // funcao para adicionar item ao carrinho, id do item no localstorage usar fetch com rota
     async function adicionarItemAoCarrinho() {
-        getCarrinho()
         try {
             const carrinhoId = parseInt(localStorage.getItem('carrinhoId'), 10);
             const eventoId = parseInt(localStorage.getItem('eventId'), 10);
@@ -706,9 +703,7 @@
 
             const resultado = await response.json();
             showAlert("Compra finalizada com sucesso! Obrigado!");
-
-            // Limpar a interface do carrinho
-            listarItensDoCarrinho();
+            window.location.reload();
 
         } catch (error) {
             console.error('Erro ao finalizar a compra:', error);
@@ -747,8 +742,6 @@
     function validaToken() {
         const token = localStorage.getItem('token');
         if (!token) {
-            // Se não há token, redireciona para a página de login
-            window.location.href = 'http://localhost:8080';
             return;
         }
 
@@ -767,11 +760,6 @@
                     localStorage.removeItem('token');
                     localStorage.removeItem('user');
                     localStorage.removeItem('carrinhoId');
-
-                    // Verifica se já estamos na página de login para evitar redirecionamento infinito
-                    if (window.location.pathname !== '/login') {
-                        window.location.href = 'http://localhost:8080';
-                    }
                 } else {
                     // Token válido, pode continuar com a inicialização da página
                     inicializarPagina();
@@ -790,6 +778,7 @@
     }
 
     function inicializarPagina() {
+        getCarrinho();
         // Esconde o elemento com o id 'perfil'
         document.getElementById('perfil').style.display = 'none';
 
