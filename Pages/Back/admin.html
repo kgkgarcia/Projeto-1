@@ -461,8 +461,10 @@
 
             function sairPagina() {
                 if (confirm("Deseja realmente sair?")) {
-                    // Remover o token do localStorage
+                    // Remover o token e dados do utilizador do localStorage
                     localStorage.removeItem('token');
+                    localStorage.removeItem('user');
+                    localStorage.removeItem('carrinhoId');
                     // Redirecionar para a página de login
                     window.location.href = "http://localhost:8080/index.html";
                 }

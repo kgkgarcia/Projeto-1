@@ -156,36 +156,6 @@
 </body>
 
 <script>
-    window.onload = function () {
-        getCarrinho();
-        listarItensDoCarrinho();
-        // Verifica se o token existe no localStorage
-        if (localStorage.getItem('token') !== null) {
-            // Esconde o elemento com o id 'perfil'
-            document.getElementById('perfil').style.display = 'none';
-
-            // Recupera os dados do utilizador do localStorage e parseia o JSON
-            const user = JSON.parse(localStorage.getItem('user'));
-
-            // Verifica se o utilizador existe e obtém o nome do utilizador
-            const userName = user ? user.nome : null;
-
-            // Verifica se o utilizador é admin
-            const isAdmin = user ? user.isAdmin : null;
-
-            // Se o utilizador não for admin, remove o dashboard
-            if (isAdmin !== true) {
-                document.getElementById('dashboard').style.display = 'none';
-            }
-
-            // Verifica se o nome do utilizador existe e atualiza o conteúdo do elemento 'user-name'
-            if (userName) {
-                document.getElementById('user-name').textContent = userName;
-            }
-        }
-    }
-
-
     window.addEventListener('scroll', function () {
 
         var botaoVoltarTopo = document.getElementById('botaoVoltarTopo');
@@ -209,9 +179,13 @@
         document.getElementById('navegacao').style.display = 'block';
         document.body.classList.remove("menu-aberto");
     }
+
     document.getElementById('sair').onclick = function () {
         localStorage.removeItem('token');
         localStorage.removeItem('user');
+        localStorage.removeItem('carrinhoId');
+        // alerta de logout usa a funcao showalert
+        showAlert("Sessão terminada!");
         location.reload();
     };
 
@@ -250,10 +224,6 @@
         var navegacaoImg = document.getElementById("navegacao");
         var navMenu = document.getElementById("navMenu");
         // Função para fechar o menu
-
-
-
-
 
         // Abrir o menu quando a imagem de navegação for clicada
         navegacaoImg.addEventListener("click", function () {
@@ -581,7 +551,7 @@
             if (!response.ok) {
                 throw new Error('Erro ao adicionar item ao carrinho');
             }
-            else{
+            else {
                 console.log('Item adicionado ao carrinho com sucesso');
                 showAlert("Item adicionado ao carrinho com sucesso");
             }
@@ -765,7 +735,7 @@
     document.querySelector('.close-alert').addEventListener('click', closeAlert);
     document.querySelector('#ok-button').addEventListener('click', closeAlert);
 
-    // Fechar o modal quando o usuário clica fora do conteúdo do modal
+    // Fechar o modal quando o utilizador clica fora do conteúdo do modal
     window.addEventListener('click', function (event) {
         const modal = document.getElementById('alert-modal');
         if (event.target == modal) {
@@ -774,6 +744,86 @@
     });
 
 
+    function validaToken() {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            // Se não há token, redireciona para a página de login
+            window.location.href = 'http://localhost:8080';
+            return;
+        }
+
+        fetch('http://localhost:8080/auth/letoken', {
+            method: 'POST',
+            headers: {
+                'Authorization': 'Bearer ' + token,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ token: token })
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.message === 'Token inválido ou expirado') {
+                    // Se o token expirou ou é inválido, remove o token e redireciona para a página de login
+                    localStorage.removeItem('token');
+                    localStorage.removeItem('user');
+                    localStorage.removeItem('carrinhoId');
+
+                    // Verifica se já estamos na página de login para evitar redirecionamento infinito
+                    if (window.location.pathname !== '/login') {
+                        window.location.href = 'http://localhost:8080';
+                    }
+                } else {
+                    // Token válido, pode continuar com a inicialização da página
+                    inicializarPagina();
+                }
+            })
+            .catch(error => {
+                console.error('Erro ao validar token:', error);
+                // Em caso de erro na validação do token, redireciona para a página de login
+                localStorage.removeItem('token');
+
+                // Verifica se já estamos na página de login para evitar redirecionamento infinito
+                if (window.location.pathname !== '/login') {
+                    window.location.href = 'http://localhost:8080';
+                }
+            });
+    }
+
+    function inicializarPagina() {
+        // Esconde o elemento com o id 'perfil'
+        document.getElementById('perfil').style.display = 'none';
+
+        // Verifica se existe carrinhoId no localStorage
+        const carrinhoId = localStorage.getItem('carrinhoId');
+        if (carrinhoId !== null) {
+            listarItensDoCarrinho();
+        }
+
+        // Verifica se existe utilizador no localStorage e parseia o JSON
+        const userJson = localStorage.getItem('user');
+        if (userJson) {
+            const user = JSON.parse(userJson);
+
+            // Obtém o nome do utilizador
+            const userName = user.nome;
+
+            // Verifica se o utilizador é admin
+            const isAdmin = user.isAdmin;
+
+            // Se o utilizador não for admin, remove o dashboard
+            if (!isAdmin) {
+                document.getElementById('dashboard').style.display = 'none';
+            }
+
+            // Atualiza o conteúdo do elemento 'user-name' com o nome do utilizador
+            document.getElementById('user-name').textContent = userName;
+        }
+    }
+
+    // Chama validaToken() quando a página for completamente carregada
+    window.onload = function () {
+        validaToken();
+    };
 
 
 
