@@ -769,11 +769,6 @@
                 console.error('Erro ao validar token:', error);
                 // Em caso de erro na validação do token, redireciona para a página de login
                 localStorage.removeItem('token');
-
-                // Verifica se já estamos na página de login para evitar redirecionamento infinito
-                if (window.location.pathname !== '/login') {
-                    window.location.href = 'http://localhost:8080';
-                }
             });
     }
 

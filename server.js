@@ -47,10 +47,6 @@ app.use('/itens', itens);
 const categoriasRoutes = require('./routes/categorias');
 app.use('/api', categoriasRoutes);
 
-// Rota base para servir a aplicação
-app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'Pages/Front', 'index.html'));
-});
 
 // Porta
 const port = process.env.PORT || 8080;

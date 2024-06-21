@@ -16,7 +16,6 @@ model Utilizador {
     isAdmin   Boolean    @default(false)
     password  String
     numtel    String
-    compras   Compra[]
     carrinhos Carrinho[]
 }
 
@@ -38,14 +37,6 @@ model CategoriaEvento {
     id      Int       @id @default(autoincrement())
     nome    String
     eventos Evento[]
-}
-
-model Compra {
-    id           Int         @id @default(autoincrement())
-    utilizadorId Int
-    utilizador   Utilizador  @relation(fields: [utilizadorId], references: [id])
-    dataCompra   DateTime    @default(now())
-    total        Float
 }
 
 model Carrinho {
